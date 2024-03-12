@@ -152,11 +152,11 @@ private extension DataStore {
                 let filter = GlucoseFilter()
                 let glucoseValues = try Row.fetchAll(db, sql: "SELECT \(SensorGlucose.Columns.id.name), \(SensorGlucose.Columns.rawGlucoseValue.name) FROM \(SensorGlucose.databaseTableName) ORDER BY \(SensorGlucose.Columns.timestamp.name)")
 
-                try glucoseValues.forEach { row in
+                for row in glucoseValues {
                     let id: UUID = row[SensorGlucose.Columns.id.name]
                     let rawGlucoseValue: Int = row[SensorGlucose.Columns.rawGlucoseValue.name]
                     let smoothGlucoseValue = filter.filter(glucoseValue: rawGlucoseValue, initGlucoseValues: [])
-
+                    
                     try db.execute(
                         sql: "UPDATE \(SensorGlucose.databaseTableName) SET \(SensorGlucose.Columns.smoothGlucoseValue.name) = :value WHERE \(SensorGlucose.Columns.id.name) = :id",
                         arguments: ["value": smoothGlucoseValue, "id": id.uuidString]
@@ -207,7 +207,7 @@ private extension DataStore {
     func insertSensorGlucose(_ values: [SensorGlucose]) {
         if let dbQueue = dbQueue {
             do {
-                try values.forEach { value in
+                for value in values {
                     try dbQueue.write { db in
                         let count = try SensorGlucose
                             .filter(Column(SensorGlucose.Columns.timestamp.name) == value.timestamp)
