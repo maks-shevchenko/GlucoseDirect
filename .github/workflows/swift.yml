@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: SwiftFormat
-        run: swiftformat . --lint
+        run: swiftformat . --lint --swiftversion 5
       - name: SwiftLint
         run: swiftlint lint --strict
       - name: Build and Test
