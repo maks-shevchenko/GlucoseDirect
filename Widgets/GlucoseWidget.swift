@@ -17,15 +17,15 @@ struct GlucoseEntry: TimelineEntry {
     // MARK: Lifecycle
 
     init() {
-        self.date = Date()
-        self.glucose = nil
-        self.glucoseUnit = nil
+        date = Date()
+        glucose = nil
+        glucoseUnit = nil
     }
 
     init(date: Date) {
         self.date = date
-        self.glucose = nil
-        self.glucoseUnit = nil
+        glucose = nil
+        glucoseUnit = nil
     }
 
     init(date: Date, glucose: SensorGlucose, glucoseUnit: GlucoseUnit) {
@@ -44,17 +44,17 @@ struct GlucoseEntry: TimelineEntry {
 // MARK: - GlucoseUpdateProvider
 
 struct GlucoseUpdateProvider: TimelineProvider {
-    func placeholder(in context: Context) -> GlucoseEntry {
+    func placeholder(in _: Context) -> GlucoseEntry {
         return GlucoseEntry(date: Date(), glucose: placeholderGlucose, glucoseUnit: placeholderGlucoseUnit)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (GlucoseEntry) -> ()) {
+    func getSnapshot(in _: Context, completion: @escaping (GlucoseEntry) -> Void) {
         let entry = GlucoseEntry()
 
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let entries = [
             GlucoseEntry(),
         ]

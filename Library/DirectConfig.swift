@@ -1,5 +1,5 @@
 //
-//  AppConfig.swift
+//  DirectConfig.swift
 //  GlucoseDirect
 //
 
@@ -38,31 +38,21 @@ enum DirectConfig {
     static let showSmoothedGlucose = true
     static var showInsulinInput = true
 
-    static var appName: String = {
-        Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as! String
-    }()
+    static var appName: String = Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as! String
 
-    static var appVersion: String = {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-    }()
+    static var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
 
-    static var appBuild: String = {
-        Bundle.main.infoDictionary?["CFBundleVersion"] as! String
-    }()
+    static var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
 
-    static var appAuthor: String? = {
-        Bundle.main.infoDictionary?["AppAuthor"] as? String
-    }()
+    static var appAuthor: String? = Bundle.main.infoDictionary?["AppAuthor"] as? String
 
-    static var appSupportMail: String? = {
-        Bundle.main.infoDictionary?["AppSupportMail"] as? String
-    }()
+    static var appSupportMail: String? = Bundle.main.infoDictionary?["AppSupportMail"] as? String
 
     static var isDebug: Bool {
         #if DEBUG
-        true
+            true
         #else
-        false
+            false
         #endif
     }
 }

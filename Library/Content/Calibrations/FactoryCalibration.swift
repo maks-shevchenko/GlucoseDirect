@@ -65,16 +65,16 @@ struct FactoryCalibration: Codable {
 extension FactoryCalibration {
     static func libreStyleCalibration(fram: Data) -> FactoryCalibration {
         let i1 = readBits(fram, 2, 0, 3)
-        let i2 = readBits(fram, 2, 3, 0xa)
+        let i2 = readBits(fram, 2, 3, 0xA)
 
         var i3 = Double(readBits(fram, 0x150, 0, 8))
         if readBits(fram, 0x150, 0x21, 1) != 0 {
             i3 = -i3
         }
 
-        let i4 = Double(readBits(fram, 0x150, 8, 0xe))
-        let i5 = Double(readBits(fram, 0x150, 0x28, 0xc) << 2)
-        let i6 = Double(readBits(fram, 0x150, 0x34, 0xc) << 2)
+        let i4 = Double(readBits(fram, 0x150, 8, 0xE))
+        let i5 = Double(readBits(fram, 0x150, 0x28, 0xC) << 2)
+        let i6 = Double(readBits(fram, 0x150, 0x34, 0xC) << 2)
 
         return FactoryCalibration(i1: i1, i2: i2, i3: i3, i4: i4, i5: i5, i6: i6)
     }
@@ -82,16 +82,16 @@ extension FactoryCalibration {
     static func libreProCalibration(fram: Data) -> FactoryCalibration {
         let b = 14 + 42
         let i1 = readBits(fram, 26, 0, 3)
-        let i2 = readBits(fram, 26, 3, 0xa)
+        let i2 = readBits(fram, 26, 3, 0xA)
 
         var i3 = Double(readBits(fram, b, 0, 8))
         if readBits(fram, b, 0x21, 1) != 0 {
             i3 = -i3
         }
 
-        let i4 = Double(readBits(fram, b, 8, 0xe))
-        let i5 = Double(readBits(fram, b, 0x28, 0xc) << 2)
-        let i6 = Double(readBits(fram, b, 0x34, 0xc) << 2)
+        let i4 = Double(readBits(fram, b, 8, 0xE))
+        let i5 = Double(readBits(fram, b, 0x28, 0xC) << 2)
+        let i6 = Double(readBits(fram, b, 0x34, 0xC) << 2)
 
         return FactoryCalibration(i1: i1, i2: i2, i3: i3, i4: i4, i5: i5, i6: i6)
     }

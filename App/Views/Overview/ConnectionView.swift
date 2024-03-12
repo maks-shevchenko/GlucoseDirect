@@ -51,7 +51,7 @@ struct ConnectionView: View {
                 }
 
                 if store.state.hasSelectedConnection {
-                    if store.state.isTransmitter && !store.state.isConnectionPaired {
+                    if store.state.isTransmitter, !store.state.isConnectionPaired {
                         Button(
                             action: {
                                 withAnimation {

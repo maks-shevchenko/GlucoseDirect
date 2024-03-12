@@ -38,15 +38,15 @@ struct AlarmSettingsView: View {
                         Text(info.localizedDescription)
                     }
                 }.pickerStyle(.menu)
-                
+
                 VStack(alignment: .leading) {
                     HStack {
                         Text("Alarm volume")
                         Spacer()
                         Text((store.state.alarmVolume * 100).asPercent())
                     }
-                    
-                    Slider(value: alarmVolume, in: 0...1, step: 0.05)
+
+                    Slider(value: alarmVolume, in: 0 ... 1, step: 0.05)
                 }
 
                 Toggle("Ignore mute", isOn: ignoreMute).toggleStyle(SwitchToggleStyle(tint: Color.ui.accent))
@@ -65,13 +65,13 @@ struct AlarmSettingsView: View {
             set: { store.dispatch(.setIgnoreMute(enabled: $0)) }
         )
     }
-    
+
     private var alarmVolume: Binding<Float> {
         Binding(
             get: { store.state.alarmVolume },
             set: {
                 store.dispatch(.setAlarmVolume(volume: $0))
-                
+
                 if DirectNotifications.shared.isPlaying() {
                     DirectNotifications.shared.setVolume(volume: $0)
                 } else {

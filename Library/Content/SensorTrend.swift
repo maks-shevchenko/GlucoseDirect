@@ -30,7 +30,7 @@ enum SensorTrend: String, Codable {
     // MARK: Internal
 
     var description: String {
-        self.rawValue
+        rawValue
     }
 }
 

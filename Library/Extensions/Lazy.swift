@@ -28,11 +28,11 @@ class LazyService<T> {
         var returnValue: T?
         queue.sync {
             switch self._value {
-            case .uninitialized(let initialization):
+            case let .uninitialized(initialization):
                 let result = initialization()
                 self._value = .initialized(result)
                 returnValue = result
-            case .initialized(let result):
+            case let .initialized(result):
                 returnValue = result
             }
         }

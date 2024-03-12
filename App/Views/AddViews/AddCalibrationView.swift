@@ -9,13 +9,13 @@ import SwiftUI
 
 struct AddCalibrationView: View {
     @Environment(\.dismiss) var dismiss
-    
+
     @State private var value: Int = 100
-    
+
     var glucoseSuggestion: Int
     var glucoseUnit: GlucoseUnit
     var addCallback: (_ value: Int) -> Void
-    
+
     var body: some View {
         NavigationView {
             HStack {
@@ -47,12 +47,12 @@ struct AddCalibrationView: View {
 
 struct AddCalibrationView2: View {
     @Environment(\.dismiss) var dismiss
-    
+
     @FocusState private var glucoseFocus: Bool
     @State private var glucose: Double?
 
     var addCallback: (_ value: Double) -> Void
-    
+
     var body: some View {
         NavigationView {
             HStack {
@@ -60,7 +60,7 @@ struct AddCalibrationView2: View {
                     Section {
                         HStack {
                             Text("Glucose")
-                            
+
                             TextField("", value: $glucose, format: .number)
                                 .textFieldStyle(.automatic)
                                 .keyboardType(.numbersAndPunctuation)

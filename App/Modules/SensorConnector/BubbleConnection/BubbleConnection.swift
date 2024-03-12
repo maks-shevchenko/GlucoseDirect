@@ -62,7 +62,7 @@ class BubbleConnection: SensorBluetoothConnection, IsTransmitter {
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor _: CBCharacteristic, error: Error?) {
         sendUpdate(error: error)
 
         guard let writeCharacteristic = writeCharacteristic else {
@@ -72,7 +72,7 @@ class BubbleConnection: SensorBluetoothConnection, IsTransmitter {
         peripheral.writeValue(Data([0x00, 0x00, UInt8(sensorInterval)]), for: writeCharacteristic, type: .withResponse)
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error _: Error?) {
         guard let value = characteristic.value else {
             return
         }
@@ -85,8 +85,8 @@ class BubbleConnection: SensorBluetoothConnection, IsTransmitter {
 
         switch bubbleResponseState {
         case .dataInfo:
-            let hardwareMajor = value[value.count-2]
-            let hardwareMinor = value[value.count-1]
+            let hardwareMajor = value[value.count - 2]
+            let hardwareMinor = value[value.count - 1]
             let hardware = Double("\(hardwareMajor).\(hardwareMinor)")
             let firmwareMajor = value[2]
             let firmwareMinor = value[3]
@@ -98,7 +98,7 @@ class BubbleConnection: SensorBluetoothConnection, IsTransmitter {
             sendUpdate(isPaired: true)
 
             if let writeCharacteristic = writeCharacteristic {
-                peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2b]), for: writeCharacteristic, type: .withResponse)
+                peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
             }
 
         case .dataPacket:
@@ -127,12 +127,12 @@ class BubbleConnection: SensorBluetoothConnection, IsTransmitter {
                 }
 
                 let sensor = Sensor.libreStyleSensor(uuid: uuid, patchInfo: patchInfo, fram: fram)
-                
+
                 guard let factoryCalibration = sensor.factoryCalibration else {
                     resetBuffer()
                     return
                 }
-                
+
                 sendUpdate(sensor: sensor, keepDevice: true)
 
                 if sensor.age >= sensor.lifetime {

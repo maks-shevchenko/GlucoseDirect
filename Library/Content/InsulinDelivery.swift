@@ -1,5 +1,5 @@
 //
-//  Insulin.swift
+//  InsulinDelivery.swift
 //  GlucoseDirectApp
 //
 
@@ -40,12 +40,12 @@ struct InsulinDelivery: CustomStringConvertible, Codable, Identifiable {
         let roundedStarts = starts.toRounded(on: 1, .minute)
         let roundedEnds = ends.toRounded(on: 1, .minute)
 
-        self.id = UUID()
+        id = UUID()
         self.starts = roundedStarts
         self.ends = roundedEnds
         self.units = units
         self.type = type
-        self.timegroup = starts.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = starts.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     init(id: UUID, starts: Date, ends: Date, units: Double, type: InsulinType) {
@@ -57,7 +57,7 @@ struct InsulinDelivery: CustomStringConvertible, Codable, Identifiable {
         self.ends = roundedEnds
         self.units = units
         self.type = type
-        self.timegroup = starts.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = starts.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     // MARK: Internal

@@ -13,10 +13,10 @@ struct BloodGlucose: Glucose, CustomStringConvertible, Codable, Identifiable {
     init(timestamp: Date, glucoseValue: Int) {
         let roundedTimestamp = timestamp.toRounded(on: 1, .minute)
 
-        self.id = UUID()
+        id = UUID()
         self.timestamp = roundedTimestamp
         self.glucoseValue = glucoseValue
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     init(id: UUID, timestamp: Date, glucoseValue: Int) {
@@ -25,7 +25,7 @@ struct BloodGlucose: Glucose, CustomStringConvertible, Codable, Identifiable {
         self.id = id
         self.timestamp = roundedTimestamp
         self.glucoseValue = glucoseValue
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     // MARK: Internal

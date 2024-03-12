@@ -17,7 +17,7 @@ func insulinDeliveryStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setMinSelectedDate(minSelectedDate: minSelectedDate)
             }.eraseToAnyPublisher()
 
-        case .addInsulinDelivery(insulinDeliveryValues: let insulinDeliveryValues):
+        case let .addInsulinDelivery(insulinDeliveryValues: insulinDeliveryValues):
             guard !insulinDeliveryValues.isEmpty else {
                 break
             }
@@ -28,7 +28,7 @@ func insulinDeliveryStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 .setFailureType(to: DirectError.self)
                 .eraseToAnyPublisher()
 
-        case .deleteInsulinDelivery(insulinDelivery: let insulinDelivery):
+        case let .deleteInsulinDelivery(insulinDelivery: insulinDelivery):
             DataStore.shared.deleteInsulinDelivery(insulinDelivery)
 
             return Just(DirectAction.loadInsulinDeliveryValues)
@@ -56,7 +56,7 @@ func insulinDeliveryStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setInsulinDeliveryValues(insulinDeliveryValues: insulinDeliveryValues)
             }.eraseToAnyPublisher()
 
-        case .setAppState(appState: let appState):
+        case let .setAppState(appState: appState):
             guard appState == .active else {
                 break
             }
@@ -139,7 +139,7 @@ private extension DataStore {
         if let dbQueue = dbQueue {
             do {
                 try dbQueue.write { db in
-                    values.forEach { value in
+                    for value in values {
                         do {
                             try value.insert(db)
                         } catch {

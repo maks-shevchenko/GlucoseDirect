@@ -11,17 +11,17 @@ struct SensorReading: CustomStringConvertible, Codable {
     // MARK: Lifecycle
 
     private init(timestamp: Date, quality: SensorReadingError) {
-        self.id = UUID()
+        id = UUID()
         self.timestamp = timestamp.toRounded(on: 1, .minute)
-        self.glucoseValue = 0
-        self.error = quality
+        glucoseValue = 0
+        error = quality
     }
 
     private init(timestamp: Date, glucoseValue: Double) {
-        self.id = UUID()
+        id = UUID()
         self.timestamp = timestamp.toRounded(on: 1, .minute)
         self.glucoseValue = glucoseValue
-        self.error = .OK
+        error = .OK
     }
 
     // MARK: Internal

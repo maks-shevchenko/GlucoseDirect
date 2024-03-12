@@ -1,5 +1,5 @@
 //
-//  SensorErrorList.swift
+//  SensorErrorListView.swift
 //  GlucoseDirectApp
 //
 
@@ -20,8 +20,8 @@ struct SensorErrorListView: View {
                     SelectedDatePager().padding(.trailing)
                 }.buttonStyle(.plain),
                 collapsed: true,
-                collapsible: !sensorErrorValues.isEmpty)
-            {
+                collapsible: !sensorErrorValues.isEmpty
+            ) {
                 if sensorErrorValues.isEmpty {
                     Text(getTeaser(sensorErrorValues.count))
                 } else {
@@ -41,7 +41,7 @@ struct SensorErrorListView: View {
                             (index: i, error: sensorErrorValues[i])
                         }
 
-                        deletables.forEach { delete in
+                        for delete in deletables {
                             sensorErrorValues.remove(at: delete.index)
                             store.dispatch(.deleteSensorError(error: delete.error))
                         }

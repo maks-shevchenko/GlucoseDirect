@@ -20,7 +20,7 @@ struct GlucoseView: View {
                         Text(verbatim: latestGlucose.glucoseValue.asGlucose(glucoseUnit: store.state.glucoseUnit))
                             .font(.system(size: 96))
                             .foregroundColor(getGlucoseColor(glucose: latestGlucose))
-                        
+
                         VStack(alignment: .leading) {
                             Text(verbatim: latestGlucose.trend.description)
                                 .foregroundColor(getGlucoseColor(glucose: latestGlucose))

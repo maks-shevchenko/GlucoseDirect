@@ -59,7 +59,7 @@ private class DebugService {
         }
     }
 
-    func debugNotification(sound: NotificationSound, ignoreMute: Bool) {
+    func debugNotification(sound: NotificationSound, ignoreMute _: Bool) {
         DirectNotifications.shared.ensureCanSendNotification { state in
             let notification = UNMutableNotificationContent()
 

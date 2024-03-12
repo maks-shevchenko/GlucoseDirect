@@ -10,14 +10,14 @@ import GRDB
 func createFile(filename: String) -> URL? {
     do {
         let fileManager = FileManager.default
-    
+
         let temporaryDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let temporaryURL = temporaryDirectory.appendingPathComponent("\(filename).csv")
-    
+
         if fileManager.fileExists(atPath: temporaryURL.path) {
             try fileManager.removeItem(atPath: temporaryURL.path)
         }
-    
+
         let createdFile = fileManager.createFile(atPath: temporaryURL.path, contents: nil, attributes: nil)
         if createdFile {
             return temporaryURL
@@ -25,7 +25,7 @@ func createFile(filename: String) -> URL? {
     } catch {
         DirectLog.info("Error writing csv: \(error)")
     }
-    
+
     return nil
 }
 
@@ -33,15 +33,15 @@ func writeFile(temporaryURL: URL, values: [[String]]) {
     do {
         let fileHandle = try FileHandle(forWritingTo: temporaryURL)
         fileHandle.seekToEndOfFile()
-            
+
         defer {
             fileHandle.closeFile()
         }
-            
-        values.forEach { value in
+
+        for value in values {
             fileHandle.writeRow(items: value)
         }
-        
+
         fileHandle.closeFile()
     } catch {
         DirectLog.info("Error writing csv: \(error)")
@@ -57,79 +57,79 @@ func storeExportMiddleware() -> Middleware<DirectState, DirectAction> {
                     if let fileURL = createFile(filename: "glucose-direct") {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        
+
                         let mmolLFormatter = NumberFormatter()
                         mmolLFormatter.numberStyle = .decimal
                         mmolLFormatter.decimalSeparator = "."
                         mmolLFormatter.minimumFractionDigits = 1
                         mmolLFormatter.maximumFractionDigits = 1
-                        
+
                         let header = [
                             "Id",
                             "Timestamp",
                             "Glucose in mg/dL",
-                            "Glucose in mmol/L"
+                            "Glucose in mmol/L",
                         ]
-                        
+
                         let glucoseValueLimit = 1000
                         let glucoseValuePages = DataStore.shared.getSensorGlucoseValuesPages(limit: glucoseValueLimit)
-                        
+
                         writeFile(temporaryURL: fileURL, values: [
-                            header
+                            header,
                         ])
-                        
+
                         for i in 0 ... glucoseValuePages {
                             let glucoseValues = DataStore.shared.getSensorGlucoseValues(offset: i * glucoseValueLimit, limit: glucoseValueLimit).map { value in
                                 [
                                     value.id.uuidString,
                                     dateFormatter.string(from: value.timestamp),
                                     value.glucoseValue.description,
-                                    mmolLFormatter.string(from: value.glucoseValue.toMmolL() as NSNumber)!
+                                    mmolLFormatter.string(from: value.glucoseValue.toMmolL() as NSNumber)!,
                                 ]
                             }
-                            
+
                             writeFile(temporaryURL: fileURL, values: glucoseValues)
                         }
-                        
+
                         promise(.success(.sendFile(fileURL: fileURL)))
                     } else {
                         promise(.failure(.withMessage("Cannot create unknown csv file")))
                     }
                 }
             }.eraseToAnyPublisher()
-            
+
         case .exportToTidepool:
             return Future { promise in
                 DispatchQueue.global().async {
                     if let fileURL = createFile(filename: "tidepool") {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
-                        
+
                         let headerPrefix = [
                             "Glukose-Werte",
                             "Erstellt am",
                             "\(dateFormatter.string(from: Date()))",
                             "Erstellt von",
-                            "Glucose Direct"
+                            "Glucose Direct",
                         ]
-                        
+
                         let header = [
                             "Gerät",
                             "Seriennummer",
                             "Gerätezeitstempel",
                             "Aufzeichnungstyp",
                             "Glukosewert-Verlauf mg/dL",
-                            "Glukose-Scan mg/dL"
+                            "Glukose-Scan mg/dL",
                         ]
-                        
+
                         let glucoseValueLimit = 1000
                         let glucoseValuePages = DataStore.shared.getSensorGlucoseHistoryPages(limit: glucoseValueLimit)
-                        
+
                         writeFile(temporaryURL: fileURL, values: [
                             headerPrefix,
-                            header
+                            header,
                         ])
-                        
+
                         for i in 0 ... glucoseValuePages {
                             let glucoseValues = DataStore.shared.getSensorGlucoseHistory(offset: i * glucoseValueLimit, limit: glucoseValueLimit).map { value in
                                 [
@@ -138,20 +138,20 @@ func storeExportMiddleware() -> Middleware<DirectState, DirectAction> {
                                     dateFormatter.string(from: value.timestamp),
                                     "0",
                                     value.glucoseValue.description,
-                                    value.glucoseValue.description
+                                    value.glucoseValue.description,
                                 ]
                             }
-                            
+
                             writeFile(temporaryURL: fileURL, values: glucoseValues)
                         }
-                        
+
                         promise(.success(.sendFile(fileURL: fileURL)))
                     } else {
                         promise(.failure(.withMessage("Cannot create glooko csv file")))
                     }
                 }
             }.eraseToAnyPublisher()
-            
+
         case .exportToGlooko:
             return Future { promise in
                 DispatchQueue.global().async {
@@ -159,32 +159,32 @@ func storeExportMiddleware() -> Middleware<DirectState, DirectAction> {
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
                         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
-                        
+
                         let headerPrefix = [
                             "Glukose-Werte",
                             "Erstellt am",
                             "\(dateFormatter.string(from: Date())) UTC",
                             "Erstellt von",
-                            "Glucose Direct"
+                            "Glucose Direct",
                         ]
-                        
+
                         let header = [
                             "Gerät",
                             "Seriennummer",
                             "Gerätezeitstempel",
                             "Aufzeichnungstyp",
                             "Glukosewert-Verlauf mg/dL",
-                            "Glukose-Scan mg/dL"
+                            "Glukose-Scan mg/dL",
                         ]
-                        
+
                         let glucoseValueLimit = 1000
                         let glucoseValuePages = DataStore.shared.getSensorGlucoseHistoryPages(limit: glucoseValueLimit)
-                        
+
                         writeFile(temporaryURL: fileURL, values: [
                             headerPrefix,
-                            header
+                            header,
                         ])
-                        
+
                         for i in 0 ... glucoseValuePages {
                             let glucoseValues = DataStore.shared.getSensorGlucoseHistory(offset: i * glucoseValueLimit, limit: glucoseValueLimit).map { value in
                                 [
@@ -193,20 +193,20 @@ func storeExportMiddleware() -> Middleware<DirectState, DirectAction> {
                                     dateFormatter.string(from: value.timestamp),
                                     "0",
                                     value.glucoseValue.description,
-                                    value.glucoseValue.description
+                                    value.glucoseValue.description,
                                 ]
                             }
-                            
+
                             writeFile(temporaryURL: fileURL, values: glucoseValues)
                         }
-                        
+
                         promise(.success(.sendFile(fileURL: fileURL)))
                     } else {
                         promise(.failure(.withMessage("Cannot create glooko csv file")))
                     }
                 }
             }.eraseToAnyPublisher()
-            
+
         default:
             break
         }
@@ -220,7 +220,7 @@ private extension DataStore {
         let count = getSensorGlucoseValuesCount()
         return Int(count / limit)
     }
-    
+
     func getSensorGlucoseValuesCount() -> Int {
         if let dbQueue = dbQueue {
             do {
@@ -232,10 +232,10 @@ private extension DataStore {
                 DirectLog.error("\(error)")
             }
         }
-        
+
         return 0
     }
-    
+
     func getSensorGlucoseValues(offset: Int, limit: Int = 100) -> [SensorGlucose] {
         if let dbQueue = dbQueue {
             do {
@@ -249,15 +249,15 @@ private extension DataStore {
                 DirectLog.error("\(error)")
             }
         }
-        
+
         return []
     }
-    
+
     func getSensorGlucoseHistoryPages(limit: Int) -> Int {
         let count = getSensorGlucoseHistoryCount()
         return Int(count / limit)
     }
-    
+
     func getSensorGlucoseHistoryCount() -> Int {
         if let dbQueue = dbQueue {
             do {
@@ -273,10 +273,10 @@ private extension DataStore {
                 DirectLog.error("\(error)")
             }
         }
-        
+
         return 0
     }
-    
+
     func getSensorGlucoseHistory(offset: Int, limit: Int = 100) -> [SensorGlucose] {
         if let dbQueue = dbQueue {
             do {
@@ -301,7 +301,7 @@ private extension DataStore {
                 DirectLog.error("\(error)")
             }
         }
-        
+
         return []
     }
 }

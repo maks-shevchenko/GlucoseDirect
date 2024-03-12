@@ -13,7 +13,7 @@ func sensorErrorStoreMiddleware() -> Middleware<DirectState, DirectAction> {
         case .startup:
             DataStore.shared.createSensorErrorTable()
 
-        case .addSensorError(errorValues: let errorValues):
+        case let .addSensorError(errorValues: errorValues):
             guard !errorValues.isEmpty else {
                 break
             }
@@ -24,7 +24,7 @@ func sensorErrorStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 .setFailureType(to: DirectError.self)
                 .eraseToAnyPublisher()
 
-        case .deleteSensorError(error: let error):
+        case let .deleteSensorError(error: error):
             DataStore.shared.deleteSensorError(error)
 
             return Just(DirectAction.loadSensorErrorValues)
@@ -52,7 +52,7 @@ func sensorErrorStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setSensorErrorValues(errorValues: errorValues)
             }.eraseToAnyPublisher()
 
-        case .setAppState(appState: let appState):
+        case let .setAppState(appState: appState):
             guard appState == .active else {
                 break
             }
@@ -129,7 +129,7 @@ private extension DataStore {
         if let dbQueue = dbQueue {
             do {
                 try dbQueue.write { db in
-                    values.forEach { value in
+                    for value in values {
                         do {
                             try value.insert(db)
                         } catch {

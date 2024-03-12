@@ -56,25 +56,25 @@ struct SensorGlucose: Glucose, CustomStringConvertible, Codable, Identifiable, H
     init(glucoseValue: Int, minuteChange: Double? = nil) {
         let roundedTimestamp = Date().toRounded(on: 1, .minute)
 
-        self.id = UUID()
-        self.timestamp = roundedTimestamp
-        self.rawGlucoseValue = glucoseValue
-        self.intGlucoseValue = glucoseValue
+        id = UUID()
+        timestamp = roundedTimestamp
+        rawGlucoseValue = glucoseValue
+        intGlucoseValue = glucoseValue
         self.minuteChange = minuteChange
-        self.smoothGlucoseValue = nil
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        smoothGlucoseValue = nil
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     init(timestamp: Date, rawGlucoseValue: Int, intGlucoseValue: Int, minuteChange: Double? = nil) {
         let roundedTimestamp = timestamp.toRounded(on: 1, .minute)
 
-        self.id = UUID()
+        id = UUID()
         self.timestamp = roundedTimestamp
         self.rawGlucoseValue = rawGlucoseValue
         self.intGlucoseValue = intGlucoseValue
         self.minuteChange = minuteChange
-        self.smoothGlucoseValue = nil
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        smoothGlucoseValue = nil
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     init(id: UUID, timestamp: Date, rawGlucoseValue: Int, intGlucoseValue: Int, smoothGlucoseValue: Double?, minuteChange: Double? = nil) {
@@ -86,7 +86,7 @@ struct SensorGlucose: Glucose, CustomStringConvertible, Codable, Identifiable, H
         self.intGlucoseValue = intGlucoseValue
         self.minuteChange = minuteChange
         self.smoothGlucoseValue = smoothGlucoseValue
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     // MARK: Internal

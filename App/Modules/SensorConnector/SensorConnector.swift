@@ -9,7 +9,7 @@ import Foundation
 func sensorErrorMiddleware() -> Middleware<DirectState, DirectAction> {
     return { state, action, _ in
         switch action {
-        case .addSensorReadings(readings: let readings):
+        case let .addSensorReadings(readings: readings):
             let previousError = state.sensorErrorValues.last
             let sensorErrors = readings.filter { reading in
                 (previousError == nil || previousError!.timestamp < reading.timestamp) && reading.error != .OK
@@ -60,7 +60,7 @@ private func sensorConnectorMiddelware(_ infos: [SensorConnectionInfo], subject:
                 .merge(with: subject)
                 .eraseToAnyPublisher()
 
-        case .selectConnectionID(id: let id):
+        case let .selectConnectionID(id: id):
             if let connectionInfo = state.connectionInfos.first(where: { $0.id == id }) {
                 let connection = connectionInfo.connectionCreator(subject)
 
@@ -76,7 +76,7 @@ private func sensorConnectorMiddelware(_ infos: [SensorConnectionInfo], subject:
                     .eraseToAnyPublisher()
             }
 
-        case .addSensorReadings(readings: let readings):
+        case let .addSensorReadings(readings: readings):
             var previousGlucose = state.latestSensorGlucose
 
             // calibrate valid values
@@ -148,7 +148,7 @@ private func sensorConnectorMiddelware(_ infos: [SensorConnectionInfo], subject:
 
             sensorConnection.disconnectConnection()
 
-        case .setConnectionPaired(isPaired: let isPaired):
+        case let .setConnectionPaired(isPaired: isPaired):
             guard isPaired, state.isConnectable else {
                 break
             }

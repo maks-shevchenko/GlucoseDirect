@@ -44,7 +44,7 @@ struct CustomCalibrationView: View {
                         HStack {
                             Text(verbatim: calibration.timestamp.toLocalDateTime())
                             Spacer()
-                            
+
                             if let xValue = calibration.x.toInteger(), let yValue = calibration.y.toInteger() {
                                 Text(verbatim: "\(xValue.asGlucose(glucoseUnit: store.state.glucoseUnit)) = \(yValue.asGlucose(glucoseUnit: store.state.glucoseUnit, withUnit: true))")
                             }
@@ -56,7 +56,7 @@ struct CustomCalibrationView: View {
                             (index: i, calibration: customCalibration[i])
                         }
 
-                        deletables.forEach { delete in
+                        for delete in deletables {
                             customCalibration.remove(at: delete.index)
                             store.dispatch(.deleteCalibration(calibration: delete.calibration))
                         }
@@ -78,7 +78,7 @@ struct CustomCalibrationView: View {
     // MARK: Private
 
     private static let factor: Double = 1_000_000
-    
+
     @State private var showingAddCalibrationView = false
     @State private var customCalibration: [CustomCalibration] = []
 

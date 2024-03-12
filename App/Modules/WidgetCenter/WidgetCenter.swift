@@ -1,5 +1,5 @@
 //
-//  Widget.swift
+//  WidgetCenter.swift
 //  GlucoseDirectApp
 //
 
@@ -45,7 +45,7 @@ private func widgetCenterMiddleware(service: LazyService<ActivityGlucoseService>
                 service.value.update(alarmLow: state.alarmLow, alarmHigh: state.alarmHigh, sensorState: state.sensor?.state, connectionState: state.connectionState, glucose: state.latestSensorGlucose, glucoseUnit: state.glucoseUnit)
             }
 
-        case .setGlucoseLiveActivity(enabled: let enabled):
+        case let .setGlucoseLiveActivity(enabled: enabled):
             if enabled {
                 guard service.value.isActivated else {
                     break
@@ -56,11 +56,11 @@ private func widgetCenterMiddleware(service: LazyService<ActivityGlucoseService>
                 service.value.stop()
             }
 
-        case .setAppState(appState: let appState):
+        case let .setAppState(appState: appState):
             guard appState == .active else {
                 break
             }
-            
+
             WidgetCenter.shared.reloadAllTimelines()
 
             guard state.glucoseLiveActivity else {

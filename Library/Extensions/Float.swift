@@ -9,6 +9,6 @@ import Foundation
 
 extension Float {
     func asPercent(_ increment: Double = 1) -> String {
-        return self.formatted(.percent.scale(1.0).rounded(increment: increment))
+        return formatted(.percent.scale(1.0).rounded(increment: increment))
     }
 }

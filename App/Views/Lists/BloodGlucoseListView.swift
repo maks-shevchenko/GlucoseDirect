@@ -1,5 +1,5 @@
 //
-//  BloodGlucoseList.swift
+//  BloodGlucoseListView.swift
 //  GlucoseDirectApp
 //
 
@@ -20,8 +20,8 @@ struct BloodGlucoseListView: View {
                     SelectedDatePager().padding(.trailing)
                 }.buttonStyle(.plain),
                 collapsed: true,
-                collapsible: !bloodGlucoseValues.isEmpty)
-            {
+                collapsible: !bloodGlucoseValues.isEmpty
+            ) {
                 if bloodGlucoseValues.isEmpty {
                     Text(getTeaser(bloodGlucoseValues.count))
                 } else {
@@ -45,7 +45,7 @@ struct BloodGlucoseListView: View {
                             (index: i, glucose: bloodGlucoseValues[i])
                         }
 
-                        deletables.forEach { delete in
+                        for delete in deletables {
                             bloodGlucoseValues.remove(at: delete.index)
                             store.dispatch(.deleteBloodGlucose(glucose: delete.glucose))
                         }

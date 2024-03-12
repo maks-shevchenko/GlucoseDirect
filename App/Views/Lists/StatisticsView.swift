@@ -1,5 +1,5 @@
 //
-//  Statistics.swift
+//  StatisticsView.swift
 //  GlucoseDirectApp
 //
 //  Created by Reimar Metzen on 07.01.23.
@@ -17,7 +17,7 @@ struct SelectedDatePager: View {
             }, label: {
                 Image(systemName: "arrowshape.turn.up.backward")
             }).opacity((store.state.selectedDate ?? Date()).startOfDay > store.state.minSelectedDate.startOfDay ? 0.5 : 0)
-            
+
             Group {
                 if let selectedDate = store.state.selectedDate {
                     Text(verbatim: selectedDate.toLocalDate())
@@ -30,7 +30,7 @@ struct SelectedDatePager: View {
             .onTapGesture {
                 store.dispatch(.setSelectedDate(selectedDate: nil))
             }
-            
+
             Button(action: {
                 setSelectedDate(addDays: +1)
             }, label: {
@@ -38,7 +38,7 @@ struct SelectedDatePager: View {
             }).opacity(store.state.selectedDate == nil ? 0 : 0.5)
         }
     }
-    
+
     private func setSelectedDate(addDays: Int) {
         store.dispatch(.setSelectedDate(selectedDate: Calendar.current.date(byAdding: .day, value: +addDays, to: store.state.selectedDate ?? Date())))
 
@@ -94,7 +94,7 @@ struct StatisticsView: View {
                                 Text(verbatim: "\(glucoseStatistics.fromTimestamp.toLocalDate()) - \(glucoseStatistics.toTimestamp.toLocalDate())")
                             }
                         }
-                        
+
                         if let avg = glucoseStatistics.avg.toInteger() {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
@@ -102,7 +102,7 @@ struct StatisticsView: View {
                                     Spacer()
                                     Text(avg.asGlucose(glucoseUnit: store.state.glucoseUnit, withUnit: true))
                                 }
-                                
+
                                 if store.state.showAnnotations {
                                     Text("Average (AVG) is an overall measure of blood sugars over a period of time, offering a single high-level view of where glucose has been.")
                                         .font(.footnote)
@@ -118,7 +118,7 @@ struct StatisticsView: View {
                                     Spacer()
                                     Text(stdev.asGlucose(glucoseUnit: store.state.glucoseUnit, withUnit: true))
                                 }
-                                
+
                                 if store.state.showAnnotations {
                                     Text("Standard Deviation (SD) is a measure of the spread in glucose readings around the average - bouncing between highs and lows results in a larger SD. The goal is the lowest SD possible, which would reflect a steady glucose level with minimal swings.")
                                         .font(.footnote)
@@ -216,7 +216,7 @@ struct StatisticsView: View {
             ChartLevel(days: 3, name: "3d"),
             ChartLevel(days: 7, name: "7d"),
             ChartLevel(days: 30, name: "30d"),
-            ChartLevel(days: 90, name: "90d")
+            ChartLevel(days: 90, name: "90d"),
         ]
     }
 

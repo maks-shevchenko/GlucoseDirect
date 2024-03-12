@@ -1,5 +1,5 @@
 //
-//  LoadingIndicator.swift
+//  LoadingView.swift
 //  GlucoseDirectApp
 //
 
@@ -23,7 +23,7 @@ struct LoadingView<Content>: View where Content: View {
                         .opacity(self.isShowing ? 1 : 0)
                         .padding(.top, 48)
                         .tint(Color(uiColor: UIColor.systemBackground))
-                    
+
                     Text("Loading...")
                         .padding(.top, 48)
                         .padding(.bottom, 32)

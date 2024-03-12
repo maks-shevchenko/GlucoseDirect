@@ -408,7 +408,7 @@ struct ChartViewCompatibility: View {
         }
     }
 
-    private func updateHelpVariables(fullSize: CGSize, glucoseValues: [any Glucose]) {
+    private func updateHelpVariables(fullSize _: CGSize, glucoseValues: [any Glucose]) {
         DirectLog.info("updateHelpVariables")
 
         if let first = glucoseValues.first, let last = glucoseValues.last {

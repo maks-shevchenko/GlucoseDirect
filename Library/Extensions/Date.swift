@@ -32,7 +32,7 @@ extension Date {
     }
 
     func toMillisecondsAsInt64() -> Int64 {
-        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+        Int64((timeIntervalSince1970 * 1000.0).rounded())
     }
 
     func toRounded(on amount: Int, _ component: Calendar.Component) -> Date {
@@ -51,19 +51,19 @@ extension Date {
     }
 
     func toMillisecondsAsDouble() -> Double {
-        return Double(self.timeIntervalSince1970 * 1000)
+        return Double(timeIntervalSince1970 * 1000)
     }
 
     func toLocalDateTime() -> String {
-        return self.formatted(.dateTime.year().month(.twoDigits).day(.twoDigits).hour(.defaultDigits(amPM: .abbreviated)).minute())
+        return formatted(.dateTime.year().month(.twoDigits).day(.twoDigits).hour(.defaultDigits(amPM: .abbreviated)).minute())
     }
 
     func toLocalTime() -> String {
-        return self.formatted(.dateTime.hour().minute())
+        return formatted(.dateTime.hour().minute())
     }
 
     func toLocalDate() -> String {
-        return self.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits))
+        return formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits))
     }
 
     private func floorAllComponents(before component: Calendar.Component) -> Date {
@@ -77,7 +77,7 @@ extension Date {
         let cal = Calendar.current
         var date = self
 
-        components.suffix(from: index + 1).forEach { roundComponent in
+        for roundComponent in components.suffix(from: index + 1) {
             let value = cal.component(roundComponent, from: date) * -1
             date = cal.date(byAdding: roundComponent, value: value, to: date)!
         }

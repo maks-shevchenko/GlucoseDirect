@@ -42,7 +42,7 @@ class Libre2Connection: SensorBluetoothConnection, IsSensor {
         return false
     }
 
-    override func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+    override func centralManager(_: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi _: NSNumber) {
         DirectLog.info("Found peripheral: \(peripheral.name ?? "-")")
 
         guard let manager else {
@@ -59,7 +59,7 @@ class Libre2Connection: SensorBluetoothConnection, IsSensor {
 
         if manufacturerData.count == 8 {
             var foundUUID = manufacturerData.subdata(in: 2 ..< 8)
-            foundUUID.append(contentsOf: [0x07, 0xe0])
+            foundUUID.append(contentsOf: [0x07, 0xE0])
 
             if foundUUID == sensor.uuid {
                 manager.stopScan()
@@ -106,7 +106,7 @@ class Libre2Connection: SensorBluetoothConnection, IsSensor {
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         sendUpdate(error: error)
 
         guard let value = characteristic.value else {
@@ -131,7 +131,7 @@ class Libre2Connection: SensorBluetoothConnection, IsSensor {
 
             if let sensor = sensor, let factoryCalibration = sensor.factoryCalibration, let uuid = sensor.uuid {
                 do {
-                    let decryptedBLE = Data(try Libre2EUtility.decryptBLE(uuid: uuid, data: rxBuffer))
+                    let decryptedBLE = try Data(Libre2EUtility.decryptBLE(uuid: uuid, data: rxBuffer))
                     let parsedBLE = Libre2EUtility.parseBLE(calibration: factoryCalibration, data: decryptedBLE)
 
                     if parsedBLE.age >= sensor.lifetime {

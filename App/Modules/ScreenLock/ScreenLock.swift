@@ -10,7 +10,7 @@ import UIKit
 func screenLockMiddleware() -> Middleware<DirectState, DirectAction> {
     return { _, action, _ in
         switch action {
-        case .setPreventScreenLock(enabled: let enabled):
+        case let .setPreventScreenLock(enabled: enabled):
             UIApplication.shared.isIdleTimerDisabled = enabled
 
         default:

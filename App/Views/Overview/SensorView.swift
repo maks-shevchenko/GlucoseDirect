@@ -1,5 +1,5 @@
 //
-//  DetailsView.swift
+//  SensorView.swift
 //  GlucoseDirect
 //
 
@@ -57,7 +57,7 @@ struct SensorView: View {
                                     ProgressView("", value: remainingWarmupTime.toPercent(of: sensor.warmupTime), total: 100)
                                 }
 
-                            } else if sensor.state != .expired && sensor.state != .shutdown && sensor.state != .unknown {
+                            } else if sensor.state != .expired, sensor.state != .shutdown, sensor.state != .unknown {
                                 HStack {
                                     Text("Sensor possible lifetime")
                                     Spacer()

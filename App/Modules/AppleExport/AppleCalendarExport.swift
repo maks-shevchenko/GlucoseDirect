@@ -1,5 +1,5 @@
 //
-//  CalendarExport.swift
+//  AppleCalendarExport.swift
 //  GlucoseDirect
 //
 
@@ -16,7 +16,7 @@ func appleCalendarExportMiddleware() -> Middleware<DirectState, DirectAction> {
 private func appleCalendarExportMiddleware(service: LazyService<AppleCalendarExportService>) -> Middleware<DirectState, DirectAction> {
     return { state, action, _ in
         switch action {
-        case .requestAppleCalendarAccess(enabled: let enabled):
+        case let .requestAppleCalendarAccess(enabled: enabled):
             if enabled {
                 return Future<DirectAction, DirectError> { promise in
                     service.value.requestAccess { granted in
@@ -38,7 +38,7 @@ private func appleCalendarExportMiddleware(service: LazyService<AppleCalendarExp
                     .eraseToAnyPublisher()
             }
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard state.appleCalendarExport else {
                 DirectLog.info("Guard: state.calendarExport disabled")
                 break
@@ -52,10 +52,10 @@ private func appleCalendarExportMiddleware(service: LazyService<AppleCalendarExp
             guard let glucose = glucoseValues.last else {
                 break
             }
-                       
+
             let alarm = state.isAlarm(glucoseValue: glucose.glucoseValue)
             DirectLog.info("alarm: \(alarm)")
-            
+
             let isAlarm = alarm != .none
             let isSnoozed = state.isSnoozed(alarm: alarm)
             DirectLog.info("isSnoozed: \(isSnoozed)")
@@ -135,7 +135,7 @@ private class AppleCalendarExportService {
         addCalendarEntry(calendarTarget: calendarTarget, timestamp: Date(), durationMinutes: 120, title: connectionState.localizedDescription, location: connectionError)
     }
 
-    func addSensorGlucose(calendarTarget: String, glucose: SensorGlucose, glucoseUnit: GlucoseUnit, sensorInterval: Double, withAlarm: Bool = false) {
+    func addSensorGlucose(calendarTarget: String, glucose: SensorGlucose, glucoseUnit: GlucoseUnit, sensorInterval _: Double, withAlarm: Bool = false) {
         addCalendarEntry(calendarTarget: calendarTarget, timestamp: glucose.timestamp, durationMinutes: 15, title: "\(glucose.trend.description) \(glucose.glucoseValue.asGlucose(glucoseUnit: glucoseUnit, withUnit: true))", location: glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit), withAlarm: withAlarm)
     }
 
@@ -165,7 +165,7 @@ private class AppleCalendarExportService {
         event.url = DirectConfig.appSchemaURL
         event.startDate = timestamp
         event.endDate = timestamp + durationMinutes * 60
-        
+
         if withAlarm {
             let alarm = EKAlarm(relativeOffset: 0)
             event.alarms = [alarm]

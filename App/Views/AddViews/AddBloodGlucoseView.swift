@@ -15,7 +15,7 @@ struct AddBloodGlucoseView: View {
 
     var glucoseUnit: GlucoseUnit
     var addCallback: (_ time: Date, _ value: Int) -> Void
-    
+
     var body: some View {
         NavigationView {
             HStack {
@@ -28,7 +28,7 @@ struct AddBloodGlucoseView: View {
                                 displayedComponents: [.date, .hourAndMinute]
                             )
                         }
-                        
+
                         NumberSelectorView(key: LocalizedString("Glucose"), value: 100, step: 1, displayValue: value.asGlucose(glucoseUnit: glucoseUnit, withUnit: true)) { value in
                             self.value = value
                         }

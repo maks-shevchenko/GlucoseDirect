@@ -13,15 +13,15 @@ struct CustomCalibration: Codable, Equatable, Identifiable {
     // MARK: Lifecycle
 
     init(x: Int, y: Int) {
-        self.id = UUID()
-        self.timestamp = Date()
+        id = UUID()
+        timestamp = Date()
         self.x = Double(x)
         self.y = Double(y)
     }
 
     init(x: Double, y: Double) {
-        self.id = UUID()
-        self.timestamp = Date()
+        id = UUID()
+        timestamp = Date()
         self.x = x
         self.y = y
     }

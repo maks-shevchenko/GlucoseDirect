@@ -3,8 +3,8 @@
 //  GlucoseDirect
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 // MARK: - ContentView
 
@@ -43,7 +43,7 @@ struct ContentView: View {
                 if newPhase == .background, store.state.preventScreenLock {
                     store.dispatch(.setPreventScreenLock(enabled: false))
                 }
-                
+
                 if newPhase == .active {
                     WidgetCenter.shared.reloadAllTimelines()
                 }

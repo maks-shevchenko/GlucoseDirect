@@ -181,17 +181,17 @@ struct GlucoseActivityView: View, GlucoseStatusContext {
                         .bold()
                         .foregroundColor(getGlucoseColor(glucose: latestGlucose))
                         .font(.system(size: 40))
-                        
+
                         Text(verbatim: latestGlucose.trend.description)
                             .foregroundColor(getGlucoseColor(glucose: latestGlucose))
                             .font(.system(size: 32))
                     }
-                    
+
                     if let warning = warning {
                         HStack {
                             Image(systemName: "exclamationmark.triangle")
                                 .foregroundColor(Color.ui.red)
-                            
+
                             Text(verbatim: warning)
                                 .bold()
                         }
@@ -199,7 +199,7 @@ struct GlucoseActivityView: View, GlucoseStatusContext {
                     } else {
                         HStack {
                             Text(verbatim: glucoseUnit.localizedDescription)
-                            
+
                             Group {
                                 if let minuteChange = latestGlucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) {
                                     Text(verbatim: minuteChange)
@@ -212,7 +212,7 @@ struct GlucoseActivityView: View, GlucoseStatusContext {
                         .font(.footnote)
                     }
                 }
-                
+
                 Spacer()
 
                 VStack(alignment: .leading, spacing: 5) {
@@ -220,12 +220,12 @@ struct GlucoseActivityView: View, GlucoseStatusContext {
                         Text("Updated")
                             .opacity(0.5)
                             .textCase(.uppercase)
-                        
+
                         Text(latestGlucose.timestamp, style: .time)
                             .bold()
                             .monospacedDigit()
                     }
-                    
+
                     if let stopDate = context.stopDate {
                         Text("Reopen app in")
                             .opacity(0.5)

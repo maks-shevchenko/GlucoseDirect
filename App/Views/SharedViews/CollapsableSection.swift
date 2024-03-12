@@ -13,7 +13,7 @@ struct CollapsableSection<Parent, Content, Teaser>: View where Parent: View, Con
     init(teaser: Teaser, header: Parent, collapsed: Bool = false, collapsible: Bool = true, @ViewBuilder content: @escaping () -> Content) {
         self.teaser = teaser
         self.header = header
-        self._collapsed = State(initialValue: collapsed)
+        _collapsed = State(initialValue: collapsed)
         self.collapsible = collapsible
         self.content = content
     }

@@ -21,7 +21,7 @@ extension Double {
         if glucoseUnit == .mgdL {
             formattedMinuteChange = GlucoseFormatters.minuteChangeFormatter.string(from: self as NSNumber)!
         } else {
-            formattedMinuteChange = GlucoseFormatters.minuteChangeFormatter.string(from: self.toMmolL() as NSNumber)!
+            formattedMinuteChange = GlucoseFormatters.minuteChangeFormatter.string(from: toMmolL() as NSNumber)!
         }
 
         if withUnit {
@@ -32,13 +32,13 @@ extension Double {
     }
 
     func asMinuteChange(glucoseUnit: GlucoseUnit, withUnit: Bool = false) -> String {
-        let formattedMinuteChange = self.asShortMinuteChange(glucoseUnit: glucoseUnit, withUnit: withUnit)
+        let formattedMinuteChange = asShortMinuteChange(glucoseUnit: glucoseUnit, withUnit: withUnit)
 
         return String(format: LocalizedString("%1$@/min."), formattedMinuteChange)
     }
 
     func asPercent(_ increment: Double = 1) -> String {
-        return self.formatted(.percent.scale(1.0).rounded(increment: increment))
+        return formatted(.percent.scale(1.0).rounded(increment: increment))
     }
 
     func toMmolL() -> Double {
@@ -55,7 +55,7 @@ extension Double {
 
     func toInteger() -> Int? {
         if self >= Double(Int.min), self < Double(Int.max) {
-            return Int(self.rounded())
+            return Int(rounded())
         } else {
             return nil
         }

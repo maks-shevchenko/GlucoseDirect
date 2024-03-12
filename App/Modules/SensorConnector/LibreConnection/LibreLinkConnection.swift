@@ -22,11 +22,11 @@ class LibreLinkConnection: Libre2Connection {
                 let result = try await pairingService.readSensor(enableStreaming: false)
 
                 sendUpdate(connectionState: .disconnected)
-                
+
                 guard result.sensor.type != .libre3 else {
                     return
                 }
-                
+
                 sendUpdate(sensor: result.sensor)
                 sendUpdate(isPaired: result.isPaired)
 
@@ -54,7 +54,7 @@ class LibreLinkConnection: Libre2Connection {
             DirectLog.error("Guard: manager is nil")
             return
         }
-        
+
         guard let serviceUUID else {
             DirectLog.error("Guard: serviceUUID is nil")
             return

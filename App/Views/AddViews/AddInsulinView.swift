@@ -7,16 +7,16 @@ import SwiftUI
 
 struct AddInsulinView: View {
     @Environment(\.dismiss) var dismiss
-    
+
     @FocusState private var unitsFocus: Bool
-    
+
     @State var starts: Date = .init()
     @State var ends: Date = .init()
     @State var units: Double?
     @State var insulinType: InsulinType = .snackBolus
 
     var addCallback: (_ starts: Date, _ ends: Date, _ units: Double, _ insulinType: InsulinType) -> Void
-    
+
     var body: some View {
         NavigationView {
             HStack {
@@ -30,17 +30,17 @@ struct AddInsulinView: View {
                                 Text(InsulinType.basal.localizedDescription).tag(InsulinType.basal)
                             }.pickerStyle(.menu)
                         }
-                        
+
                         HStack {
                             Text("Units")
-                            
+
                             TextField("", value: $units, format: .number)
                                 .textFieldStyle(.automatic)
                                 .keyboardType(.decimalPad)
                                 .focused($unitsFocus)
                                 .multilineTextAlignment(.trailing)
                         }
-                        
+
                         if insulinType != .basal {
                             HStack {
                                 DatePicker(
@@ -57,7 +57,7 @@ struct AddInsulinView: View {
                                     displayedComponents: [.date, .hourAndMinute]
                                 )
                             }
-                            
+
                             HStack {
                                 DatePicker(
                                     "Ends",

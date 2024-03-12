@@ -25,7 +25,7 @@ class LibreLinkUpConnection: SensorBluetoothConnection, IsSensor {
 
     override func resetBuffer() {}
 
-    override func checkRetrievedPeripheral(peripheral: CBPeripheral) -> Bool {
+    override func checkRetrievedPeripheral(peripheral _: CBPeripheral) -> Bool {
         return true
     }
 
@@ -116,7 +116,7 @@ class LibreLinkUpConnection: SensorBluetoothConnection, IsSensor {
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         sendUpdate(error: error)
 
         guard let value = characteristic.value else {
@@ -136,7 +136,7 @@ class LibreLinkUpConnection: SensorBluetoothConnection, IsSensor {
         }
     }
 
-    override func getConfiguration(sensor: Sensor) -> [SensorConnectionConfigurationOption] {
+    override func getConfiguration(sensor _: Sensor) -> [SensorConnectionConfigurationOption] {
         return [
             SensorConnectionConfigurationOption(id: UserDefaults.Keys.email.rawValue, name: LocalizedString("LibreLinkUp email"), value: Binding(
                 get: { UserDefaults.standard.email },
@@ -443,7 +443,7 @@ class LibreLinkUpConnection: SensorBluetoothConnection, IsSensor {
         throw LibreLinkError.unknownError
     }
 
-    private func decode<T: Decodable>(_ type: T.Type, data: Data) throws -> T {
+    private func decode<T: Decodable>(_: T.Type, data: Data) throws -> T {
         guard let jsonDecoder = jsonDecoder else {
             throw LibreLinkError.decoderError
         }

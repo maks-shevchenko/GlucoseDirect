@@ -1,5 +1,5 @@
 //
-//  NotificationCenterService.swift
+//  DirectNotifications.swift
 //  GlucoseDirect
 //
 

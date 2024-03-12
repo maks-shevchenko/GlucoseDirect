@@ -1,5 +1,5 @@
 //
-//  LibreConnectionState.swift
+//  SensorConnectionState.swift
 //  GlucoseDirect
 //
 

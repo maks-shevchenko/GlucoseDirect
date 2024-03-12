@@ -1,5 +1,5 @@
 //
-//  GlucoseQuality.swift
+//  SensorReadingError.swift
 //  GlucoseDirect
 //
 
@@ -28,53 +28,53 @@ struct SensorReadingError: OptionSet, Codable {
 
 extension SensorReadingError {
     var description: String {
-        self.getDescription(separator: "\n")
+        getDescription(separator: "\n")
     }
 
     var debugDescription: String {
-        self.getDescription(separator: ", ")
+        getDescription(separator: ", ")
     }
 
     func getDescription(separator: String) -> String {
         var outputs: [String] = []
 
-        if self.contains(.SD14_FIFO_OVERFLOW) {
+        if contains(.SD14_FIFO_OVERFLOW) {
             outputs.append("SD14_FIFO_OVERFLOW")
         }
-        if self.contains(.FILTER_DELTA) {
+        if contains(.FILTER_DELTA) {
             outputs.append("FILTER_DELTA")
         }
-        if self.contains(.WORK_VOLTAGE) {
+        if contains(.WORK_VOLTAGE) {
             outputs.append("WORK_VOLTAGE")
         }
-        if self.contains(.PEAK_DELTA_EXCEEDED) {
+        if contains(.PEAK_DELTA_EXCEEDED) {
             outputs.append("PEAK_DELTA_EXCEEDED")
         }
-        if self.contains(.AVG_DELTA_EXCEEDED) {
+        if contains(.AVG_DELTA_EXCEEDED) {
             outputs.append("AVG_DELTA_EXCEEDED")
         }
-        if self.contains(.RF) {
+        if contains(.RF) {
             outputs.append("RF")
         }
-        if self.contains(.REF_R) {
+        if contains(.REF_R) {
             outputs.append("REF_R")
         }
-        if self.contains(.SIGNAL_SATURATED) {
+        if contains(.SIGNAL_SATURATED) {
             outputs.append("SIGNAL_SATURATED")
         }
-        if self.contains(.SENSOR_SIGNAL_LOW) {
+        if contains(.SENSOR_SIGNAL_LOW) {
             outputs.append("SENSOR_SIGNAL_LOW")
         }
-        if self.contains(.THERMISTOR_OUT_OF_RANGE) {
+        if contains(.THERMISTOR_OUT_OF_RANGE) {
             outputs.append("THERMISTOR_OUT_OF_RANGE")
         }
-        if self.contains(.TEMP_HIGH) {
+        if contains(.TEMP_HIGH) {
             outputs.append("TEMP_HIGH")
         }
-        if self.contains(.TEMP_LOW) {
+        if contains(.TEMP_LOW) {
             outputs.append("TEMP_LOW")
         }
-        if self.contains(.INVALID_DATA) {
+        if contains(.INVALID_DATA) {
             outputs.append("INVALID_DATA")
         }
 

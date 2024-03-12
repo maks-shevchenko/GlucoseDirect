@@ -1,5 +1,5 @@
 //
-//  SensorConnectionLostAlert.swift
+//  ConnectionNotification.swift
 //  GlucoseDirect
 //
 
@@ -32,21 +32,21 @@ private func connectionNotificationMiddelware(service: LazyService<ConnectionNot
             }
 
             service.value.scheduleSensorConnectionLostAlarm(sound: state.connectionAlarmSound)
-            
+
         case .addSensorReadings(readings: _):
             guard state.hasConnectionAlarm else {
                 DirectLog.info("Guard: connectionAlarm disabled")
                 break
             }
-            
+
             service.value.scheduleSensorConnectionLostAlarm(sound: state.connectionAlarmSound)
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard state.hasConnectionAlarm else {
                 DirectLog.info("Guard: connectionAlarm disabled")
                 break
             }
-            
+
             guard !glucoseValues.isEmpty else {
                 DirectLog.info("Guard: glucoseValues isEmpty")
                 break
@@ -54,7 +54,7 @@ private func connectionNotificationMiddelware(service: LazyService<ConnectionNot
 
             service.value.clearAlarm()
 
-        case .setConnectionState(connectionState: let connectionState):
+        case let .setConnectionState(connectionState: connectionState):
             guard state.hasConnectionAlarm else {
                 DirectLog.info("Guard: connectionAlarm disabled")
                 break
@@ -64,7 +64,7 @@ private func connectionNotificationMiddelware(service: LazyService<ConnectionNot
                 service.value.scheduleSensorConnectionLostAlarm(sound: state.connectionAlarmSound)
             }
 
-        case .setConnectionAlarmSound(sound: let sound):
+        case let .setConnectionAlarmSound(sound: sound):
             if sound == .none {
                 service.value.clearAlarm()
             }

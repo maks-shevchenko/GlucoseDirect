@@ -1,5 +1,5 @@
 //
-//  ReadGlucose.swift
+//  ReadAloud.swift
 //  GlucoseDirect
 //
 
@@ -16,7 +16,7 @@ func readAloudMiddelware() -> Middleware<DirectState, DirectAction> {
 private func readAloudMiddelware(service: LazyService<ReadAloudService>) -> Middleware<DirectState, DirectAction> {
     return { state, action, _ in
         switch action {
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard state.readGlucose else {
                 break
             }

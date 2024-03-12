@@ -1,5 +1,5 @@
 //
-//  GlucoseChartView.swift
+//  ChartView.swift
 //  GlucoseDirect
 //
 
@@ -203,9 +203,9 @@ struct ChartView: View {
                 if value.type != .basal {
                     PointMark(
                         x: .value("Time", value.starts),
-                        y: .value("Units", value.value.map(from: 0...20, to: convertToRequired(mgdLValue: 5)...Double(alarmLow)))
+                        y: .value("Units", value.value.map(from: 0 ... 20, to: convertToRequired(mgdLValue: 5) ... Double(alarmLow)))
                     )
-                    .symbolSize(value.value.map(from: 0...20, to: 0...100))
+                    .symbolSize(value.value.map(from: 0 ... 20, to: 0 ... 100))
                     .annotation {
                         Text(value.value.asInsulin())
                             .foregroundStyle(Color.ui.orange)
@@ -236,12 +236,12 @@ struct ChartView: View {
 //                    .opacity(0.25)
 //                    .interpolationMethod(.stepEnd)
 //                    .foregroundStyle(Color.ui.orange)
-                    
+
                     RectangleMark(
                         xStart: .value("Starts", value.starts),
                         xEnd: .value("Ends", value.ends),
                         yStart: .value("Units", 0),
-                        yEnd: .value("Units", value.value.map(from: 0...20, to: 0...Double(alarmLow)))
+                        yEnd: .value("Units", value.value.map(from: 0 ... 20, to: 0 ... Double(alarmLow)))
                     )
                     .opacity(0.25)
                     .annotation(position: .overlay, alignment: .bottom) {
@@ -277,7 +277,7 @@ struct ChartView: View {
                         x: .value("Time", selectedPointInfo.time),
                         y: .value("Glucose", selectedPointInfo.value)
                     )
-                    //.symbol(.square)
+                    // .symbol(.square)
                     .opacity(0.75)
                     .symbolSize(Config.selectionSize)
                     .foregroundStyle(Color.ui.orange)
@@ -289,7 +289,7 @@ struct ChartView: View {
                     x: .value("Time", selectedPointInfo.time),
                     y: .value("Glucose", selectedPointInfo.value)
                 )
-                //.symbol(.square)
+                // .symbol(.square)
                 .opacity(0.75)
                 .symbolSize(Config.selectionSize)
                 .foregroundStyle(Color.ui.blue)
@@ -300,7 +300,7 @@ struct ChartView: View {
                     x: .value("Time", selectedPointInfo.time),
                     y: .value("Glucose", selectedPointInfo.value)
                 )
-                //.symbol(.square)
+                // .symbol(.square)
                 .opacity(0.75)
                 .symbolSize(Config.selectionSize)
                 .foregroundStyle(Color.ui.red)
@@ -448,7 +448,7 @@ struct ChartView: View {
             ZoomLevel(level: 3, name: LocalizedString("3h"), visibleHours: 3, labelEvery: 1),
             ZoomLevel(level: 6, name: LocalizedString("6h"), visibleHours: 6, labelEvery: 2),
             ZoomLevel(level: 12, name: LocalizedString("12h"), visibleHours: 12, labelEvery: 3),
-            ZoomLevel(level: 24, name: LocalizedString("24h"), visibleHours: 24, labelEvery: 4)
+            ZoomLevel(level: 24, name: LocalizedString("24h"), visibleHours: 24, labelEvery: 4),
         ]
     }
 
@@ -626,7 +626,7 @@ struct ChartView: View {
             let smoothSensorGlucoseSeries = DirectConfig.showSmoothedGlucose && store.state.showSmoothedGlucose
                 ? populateSmoothValues(glucoseValues: store.state.sensorGlucoseValues)
                 : populateValues(glucoseValues: store.state.sensorGlucoseValues)
-            smoothSensorGlucoseSeries.forEach { value in
+            for value in smoothSensorGlucoseSeries {
                 if smoothSensorPointInfos[value.time] == nil {
                     smoothSensorPointInfos[value.time] = value
                 }
@@ -637,7 +637,7 @@ struct ChartView: View {
                     $0.timestamp < store.state.smoothThreshold
                 })
                 : []
-            rawSensorGlucoseSeries.forEach { value in
+            for value in rawSensorGlucoseSeries {
                 if rawSensorPointInfos[value.time] == nil {
                     rawSensorPointInfos[value.time] = value
                 }
@@ -659,7 +659,7 @@ struct ChartView: View {
         calculationQueue.async {
             var bloodPointInfos: [Date: GlucoseDatapoint] = [:]
             let bloodGlucoseSeries = populateValues(glucoseValues: store.state.bloodGlucoseValues)
-            bloodGlucoseSeries.forEach { value in
+            for value in bloodGlucoseSeries {
                 if bloodPointInfos[value.time] == nil {
                     bloodPointInfos[value.time] = value
                 }
@@ -776,7 +776,7 @@ private extension BloodGlucose {
         "\(id.uuidString)-\(glucoseUnit.rawValue)"
     }
 
-    func toDatapoint(glucoseUnit: GlucoseUnit, alarmLow: Int, alarmHigh: Int) -> GlucoseDatapoint {
+    func toDatapoint(glucoseUnit: GlucoseUnit, alarmLow _: Int, alarmHigh _: Int) -> GlucoseDatapoint {
         if glucoseUnit == .mmolL {
             return GlucoseDatapoint(
                 id: toDatapointID(glucoseUnit: glucoseUnit),
@@ -800,7 +800,7 @@ private extension SensorGlucose {
         "\(id.uuidString)-\(glucoseUnit.rawValue)"
     }
 
-    func toRawDatapoint(glucoseUnit: GlucoseUnit, alarmLow: Int, alarmHigh: Int, shiftY: Int = 0) -> GlucoseDatapoint {
+    func toRawDatapoint(glucoseUnit: GlucoseUnit, alarmLow _: Int, alarmHigh _: Int, shiftY: Int = 0) -> GlucoseDatapoint {
         if glucoseUnit == .mmolL {
             return GlucoseDatapoint(
                 id: toDatapointID(glucoseUnit: glucoseUnit),
@@ -818,7 +818,7 @@ private extension SensorGlucose {
         )
     }
 
-    func toSmoothDatapoint(glucoseUnit: GlucoseUnit, alarmLow: Int, alarmHigh: Int, shiftY: Int = 0) -> GlucoseDatapoint {
+    func toSmoothDatapoint(glucoseUnit: GlucoseUnit, alarmLow _: Int, alarmHigh _: Int, shiftY: Int = 0) -> GlucoseDatapoint {
         let glucose = (smoothGlucoseValue ?? Double(glucoseValue))
         let info = glucose.toInteger()?.asGlucose(glucoseUnit: glucoseUnit, withUnit: true) ?? ""
 
@@ -839,7 +839,7 @@ private extension SensorGlucose {
         )
     }
 
-    func toDatapoint(glucoseUnit: GlucoseUnit, alarmLow: Int, alarmHigh: Int, shiftY: Int = 0) -> GlucoseDatapoint {
+    func toDatapoint(glucoseUnit: GlucoseUnit, alarmLow _: Int, alarmHigh _: Int, shiftY: Int = 0) -> GlucoseDatapoint {
         var info: String
 
         if let minuteChange = minuteChange {

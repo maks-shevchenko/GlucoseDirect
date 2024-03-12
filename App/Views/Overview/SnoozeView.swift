@@ -1,5 +1,5 @@
 //
-//  AlarmSnoozeView.swift
+//  SnoozeView.swift
 //  GlucoseDirect
 //
 

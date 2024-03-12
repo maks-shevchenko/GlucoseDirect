@@ -19,7 +19,7 @@ class VirtualLibreConnection: SensorConnectionProtocol, IsSensor {
 
     weak var subject: PassthroughSubject<DirectAction, DirectError>?
 
-    func getConfiguration(sensor: Sensor) -> [SensorConnectionConfigurationOption] {
+    func getConfiguration(sensor _: Sensor) -> [SensorConnectionConfigurationOption] {
         return []
     }
 
@@ -73,7 +73,7 @@ class VirtualLibreConnection: SensorConnectionProtocol, IsSensor {
                 SensorReading.createGlucoseReading(timestamp: generateHistoryTimestamp(4), glucoseValue: 84),
                 SensorReading.createGlucoseReading(timestamp: generateHistoryTimestamp(3), glucoseValue: 88),
                 SensorReading.createGlucoseReading(timestamp: generateHistoryTimestamp(2), glucoseValue: 90),
-                SensorReading.createGlucoseReading(timestamp: generateHistoryTimestamp(1), glucoseValue: 96)
+                SensorReading.createGlucoseReading(timestamp: generateHistoryTimestamp(1), glucoseValue: 96),
             ])
 
         } else if sensor.age <= sensor.warmupTime {

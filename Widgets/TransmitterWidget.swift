@@ -14,13 +14,13 @@ struct TransmitterEntry: TimelineEntry {
     // MARK: Lifecycle
 
     init() {
-        self.date = Date()
-        self.transmitter = nil
+        date = Date()
+        transmitter = nil
     }
 
     init(date: Date) {
         self.date = date
-        self.transmitter = nil
+        transmitter = nil
     }
 
     init(date: Date, transmitter: Transmitter) {
@@ -37,19 +37,19 @@ struct TransmitterEntry: TimelineEntry {
 // MARK: - TransmitterUpdateProvider
 
 struct TransmitterUpdateProvider: TimelineProvider {
-    func placeholder(in context: Context) -> TransmitterEntry {
+    func placeholder(in _: Context) -> TransmitterEntry {
         return TransmitterEntry(date: Date(), transmitter: placeholderTransmitter)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (TransmitterEntry) -> ()) {
+    func getSnapshot(in _: Context, completion: @escaping (TransmitterEntry) -> Void) {
         let entry = TransmitterEntry()
 
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let entries = [
-            TransmitterEntry()
+            TransmitterEntry(),
         ]
 
         let reloadDate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!

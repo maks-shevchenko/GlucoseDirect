@@ -175,7 +175,7 @@ extension Sensor {
             age = Int(fram[316]) + Int(fram[317]) << 8
         }
 
-        var lifetime = 20_160
+        var lifetime = 20160
         if fram.count >= 328 {
             lifetime = (Int(fram[326]) + Int(fram[327]) << 8) - 60 // for safety reasons
         }
@@ -198,12 +198,12 @@ extension Sensor {
     static func libre3Sensor(uuid: Data, patchInfo: Data) -> Sensor {
         let shiftedIndex = max(0, patchInfo.count - 28)
 
-        let localization = UInt16(patchInfo[(4 + shiftedIndex)...(5 + shiftedIndex)])
-        let lifetime = UInt16(patchInfo[(8 + shiftedIndex)...(9 + shiftedIndex)])
+        let localization = UInt16(patchInfo[(4 + shiftedIndex) ... (5 + shiftedIndex)])
+        let lifetime = UInt16(patchInfo[(8 + shiftedIndex) ... (9 + shiftedIndex)])
         let warmupTime = patchInfo[15 + shiftedIndex]
 
         let region = UInt8(localization)
-        let serial = Data(patchInfo[(17 + shiftedIndex)...(25 + shiftedIndex)])
+        let serial = Data(patchInfo[(17 + shiftedIndex) ... (25 + shiftedIndex)])
         let sensorState = UInt8(patchInfo[16 + shiftedIndex])
 
         return Sensor(
@@ -229,12 +229,12 @@ extension Sensor {
             age = Int(fram[74]) + Int(fram[75]) << 8
         }
 
-        var lifetime = 20_160
+        var lifetime = 20160
         if fram.count >= 48 {
             lifetime = (Int(fram[46]) + Int(fram[47]) << 8) - 60 // for safety reasons
         }
 
-        let serial = Data(fram[24...39])
+        let serial = Data(fram[24 ... 39])
 
         return Sensor(
             fram: fram,
@@ -279,6 +279,6 @@ private func sensorSerialNumber(uuid: Data, sensorFamily: SensorFamily) -> Strin
     fiveBitsArray.append(bytes[5] << 2)
 
     return fiveBitsArray.reduce("\(sensorFamily.rawValue)") {
-        $0 + lookupTable[Int(0x1f & $1)]
+        $0 + lookupTable[Int(0x1F & $1)]
     }
 }

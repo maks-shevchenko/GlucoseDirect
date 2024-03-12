@@ -50,11 +50,11 @@ final class GlucoseDirectApp: App {
 class GlucoseDirectAppDelegate: NSObject, UIApplicationDelegate {
     weak var store: DirectStore?
 
-    func applicationDidFinishLaunching(_ application: UIApplication) {
+    func applicationDidFinishLaunching(_: UIApplication) {
         DirectLog.info("Application did finish launching")
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         DirectLog.info("Application did finish launching with options")
 
         let notificationCenter = UNUserNotificationCenter.current()
@@ -63,7 +63,7 @@ class GlucoseDirectAppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
+    func applicationWillTerminate(_: UIApplication) {
         DirectLog.info("Application will terminate")
 
         let notificationCenter = UNUserNotificationCenter.current()
@@ -74,11 +74,11 @@ class GlucoseDirectAppDelegate: NSObject, UIApplicationDelegate {
         }
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
+    func applicationDidEnterBackground(_: UIApplication) {
         DirectLog.info("Application did enter background")
     }
 
-    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+    func applicationDidReceiveMemoryWarning(_: UIApplication) {
         DirectLog.info("Application did receive memory warning")
     }
 }
@@ -86,13 +86,13 @@ class GlucoseDirectAppDelegate: NSObject, UIApplicationDelegate {
 // MARK: UNUserNotificationCenterDelegate
 
 extension GlucoseDirectAppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         DirectLog.info("Application will present notification")
 
         completionHandler([.badge, .banner, .list, .sound])
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         DirectLog.info("Application did receive notification response")
 
         if let store = store, let action = response.notification.request.content.userInfo["action"] as? String, action == "snooze" {
@@ -134,7 +134,7 @@ private func createSimulatorAppStore() -> DirectStore {
         appGroupSharingMiddleware(),
         screenLockMiddleware(),
         sensorErrorMiddleware(),
-        storeExportMiddleware()
+        storeExportMiddleware(),
     ]
 
     if #available(iOS 16.1, *) {
@@ -142,7 +142,7 @@ private func createSimulatorAppStore() -> DirectStore {
     }
 
     middlewares.append(sensorConnectorMiddelware([
-        SensorConnectionInfo(id: DirectConfig.virtualID, name: "Virtual") { VirtualLibreConnection(subject: $0) }
+        SensorConnectionInfo(id: DirectConfig.virtualID, name: "Virtual") { VirtualLibreConnection(subject: $0) },
     ]))
 
     if DirectConfig.isDebug {
@@ -174,7 +174,7 @@ private func createAppStore() -> DirectStore {
         appGroupSharingMiddleware(),
         screenLockMiddleware(),
         sensorErrorMiddleware(),
-        storeExportMiddleware()
+        storeExportMiddleware(),
     ]
 
     if #available(iOS 16.1, *) {

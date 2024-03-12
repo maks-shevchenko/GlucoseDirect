@@ -1,5 +1,5 @@
 //
-//  SensorExpired.swift
+//  ExpiringNotification.swift
 //  GlucoseDirect
 //
 
@@ -16,7 +16,7 @@ func expiringNotificationMiddelware() -> Middleware<DirectState, DirectAction> {
 private func expiringNotificationMiddelware(service: LazyService<ExpiringNotificationService>) -> Middleware<DirectState, DirectAction> {
     return { state, action, _ in
         switch action {
-        case .setExpiringAlarmSound(sound: let sound):
+        case let .setExpiringAlarmSound(sound: sound):
             if sound == .none {
                 service.value.clearAlarm()
             }
@@ -41,7 +41,7 @@ private func expiringNotificationMiddelware(service: LazyService<ExpiringNotific
 
             } else if sensor.remainingLifetime <= (24 * 60) { // less than 24 hours
                 DirectLog.info("Sensor is expiring in less than 24 hours")
-                
+
                 service.value.setSensorExpiringAlarm(body: String(format: LocalizedString("Your sensor is about to expire. Replace sensor in %1$@."), sensor.remainingLifetime.inTimeSummary), sound: .none, volume: state.alarmVolume, ignoreMute: state.ignoreMute)
             }
 
@@ -98,7 +98,7 @@ private class ExpiringNotificationService {
             if state == .sound {
                 DirectNotifications.shared.playSound(sound: sound, volume: volume, ignoreMute: ignoreMute)
             }
-            
+
             DirectNotifications.shared.addNotification(identifier: Identifier.sensorExpiringAlarm.rawValue, content: notification)
         }
     }
@@ -121,7 +121,7 @@ private class ExpiringNotificationService {
             guard state != .none else {
                 return
             }
-            
+
             let notification = UNMutableNotificationContent()
             notification.sound = .none
             notification.title = LocalizedString("Alert, sensor expiring soon")
@@ -130,7 +130,7 @@ private class ExpiringNotificationService {
             if state == .sound {
                 DirectNotifications.shared.playSound(sound: sound, volume: volume, ignoreMute: ignoreMute)
             }
-            
+
             DirectNotifications.shared.addNotification(identifier: Identifier.sensorExpiringAlarm.rawValue, content: notification)
         }
     }

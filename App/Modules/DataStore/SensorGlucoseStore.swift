@@ -59,7 +59,7 @@ func sensorGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setMinSelectedDate(minSelectedDate: minSelectedDate)
             }.eraseToAnyPublisher()
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard !glucoseValues.isEmpty else {
                 break
             }
@@ -70,7 +70,7 @@ func sensorGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 .setFailureType(to: DirectError.self)
                 .eraseToAnyPublisher()
 
-        case .deleteSensorGlucose(glucose: let glucose):
+        case let .deleteSensorGlucose(glucose: glucose):
             DataStore.shared.deleteSensorGlucose(glucose)
 
             return Just(DirectAction.loadSensorGlucoseValues)
@@ -98,7 +98,7 @@ func sensorGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setSensorGlucoseValues(glucoseValues: glucoseValues)
             }.eraseToAnyPublisher()
 
-        case .setAppState(appState: let appState):
+        case let .setAppState(appState: appState):
             guard appState == .active else {
                 break
             }
@@ -223,7 +223,7 @@ private extension DataStore {
             }
         }
     }
-    
+
     func getSensorGlucoseStatistics(days: Int, lowerLimit: Int, upperLimit: Int) -> Future<GlucoseStatistics, DirectError> {
         return Future { promise in
             if let dbQueue = self.dbQueue {

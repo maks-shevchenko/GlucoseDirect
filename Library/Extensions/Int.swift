@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - GlucoseFormatters
 
-struct GlucoseFormatters {
+enum GlucoseFormatters {
     static var insulinFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -27,7 +27,7 @@ struct GlucoseFormatters {
 
         return formatter
     }()
-    
+
     static var mmolLFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -172,9 +172,9 @@ extension Int {
         var glucose: String
 
         if glucoseUnit == .mmolL {
-            glucose = GlucoseFormatters.mmolLFormatter.string(from: self.toMmolL() as NSNumber)!
+            glucose = GlucoseFormatters.mmolLFormatter.string(from: toMmolL() as NSNumber)!
         } else {
-            glucose = GlucoseFormatters.mgdLFormatter.string(from: self.toDouble() as NSNumber)!
+            glucose = GlucoseFormatters.mgdLFormatter.string(from: toDouble() as NSNumber)!
         }
 
         if withUnit {

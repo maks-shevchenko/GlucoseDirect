@@ -15,8 +15,8 @@ struct ToggleView: View {
     init(key: String, value: Bool, completionHandler: ToggleCompletionHandler? = nil) {
         self.key = key
         self.value = value
-        self.trueValue = nil
-        self.falseValue = nil
+        trueValue = nil
+        falseValue = nil
         self.completionHandler = completionHandler
     }
 

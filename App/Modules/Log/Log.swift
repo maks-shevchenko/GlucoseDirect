@@ -1,5 +1,5 @@
 //
-//  ActionAppLog.swift
+//  Log.swift
 //  GlucoseDirect
 //
 
@@ -23,7 +23,7 @@ private func logMiddleware(service: SendService) -> Middleware<DirectState, Dire
 
         case .setSensorErrorValues(errorValues: _):
             break
-            
+
         case .setNightscoutURL(url: _):
             break
 
@@ -45,8 +45,8 @@ private func logMiddleware(service: SendService) -> Middleware<DirectState, Dire
             return Just(DirectAction.sendFile(fileURL: DirectLog.logsURL))
                 .setFailureType(to: DirectError.self)
                 .eraseToAnyPublisher()
-            
-        case .sendFile(fileURL: let fileURL):
+
+        case let .sendFile(fileURL: fileURL):
             service.sendFile(fileURL: fileURL)
 
         default:

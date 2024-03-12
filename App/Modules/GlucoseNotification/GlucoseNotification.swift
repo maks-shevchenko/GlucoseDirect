@@ -1,5 +1,5 @@
 //
-//  GlucoseAlert.swift
+//  GlucoseNotification.swift
 //  GlucoseDirect
 //
 
@@ -17,21 +17,21 @@ func glucoseNotificationMiddelware() -> Middleware<DirectState, DirectAction> {
 private func glucoseNotificationMiddelware(service: LazyService<GlucoseNotificationService>) -> Middleware<DirectState, DirectAction> {
     return { state, action, _ in
         switch action {
-        case .setGlucoseUnit(unit: let unit):
+        case let .setGlucoseUnit(unit: unit):
             guard let glucose = state.latestSensorGlucose else {
                 break
             }
 
             service.value.setGlucoseNotification(glucose: glucose, glucoseUnit: unit)
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard let glucose = glucoseValues.last else {
                 break
             }
 
             let alarm = state.isAlarm(glucoseValue: glucose.glucoseValue)
             DirectLog.info("alarm: \(alarm)")
-            
+
             let isSnoozed = state.isSnoozed(alarm: alarm)
             DirectLog.info("isSnoozed: \(isSnoozed)")
 
@@ -124,8 +124,7 @@ private class GlucoseNotificationService {
             notification.title = String(format: LocalizedString("Blood glucose: %1$@"), glucose.glucoseValue.asGlucose(glucoseUnit: glucoseUnit, withUnit: true))
             notification.body = String(format: LocalizedString("Your current glucose is %1$@ (%2$@)."),
                                        glucose.glucoseValue.asGlucose(glucoseUnit: glucoseUnit, withUnit: true),
-                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?"
-            )
+                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?")
 
             DirectNotifications.shared.addNotification(identifier: Identifier.sensorGlucoseAlarm.rawValue, content: notification)
         }
@@ -157,8 +156,7 @@ private class GlucoseNotificationService {
             notification.title = LocalizedString("Alert, low blood glucose")
             notification.body = String(format: LocalizedString("Your glucose %1$@ (%2$@) is dangerously low. With sweetened drinks or dextrose, blood glucose levels can often return to normal."),
                                        glucose.glucoseValue.asGlucose(glucoseUnit: glucoseUnit, withUnit: true),
-                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?"
-            )
+                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?")
 
             DirectNotifications.shared.addNotification(identifier: Identifier.sensorGlucoseAlarm.rawValue, content: notification)
         }
@@ -190,8 +188,7 @@ private class GlucoseNotificationService {
             notification.title = LocalizedString("Alert, high glucose")
             notification.body = String(format: LocalizedString("Your glucose %1$@ (%2$@) is dangerously high and needs to be treated."),
                                        glucose.glucoseValue.asGlucose(glucoseUnit: glucoseUnit, withUnit: true),
-                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?"
-            )
+                                       glucose.minuteChange?.asMinuteChange(glucoseUnit: glucoseUnit) ?? "?")
 
             DirectNotifications.shared.addNotification(identifier: Identifier.sensorGlucoseAlarm.rawValue, content: notification)
         }
@@ -200,7 +197,7 @@ private class GlucoseNotificationService {
     // MARK: Private
 
     private let actions: [AnyHashable: Any] = [
-        "action": "snooze"
+        "action": "snooze",
     ]
 }
 

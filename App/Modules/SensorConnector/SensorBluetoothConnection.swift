@@ -1,5 +1,5 @@
 //
-//  SensorBLEConnection.swift
+//  SensorBluetoothConnection.swift
 //  GlucoseDirect
 //
 
@@ -28,7 +28,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
 
         self.subject = subject
         self.serviceUUID = serviceUUID
-        self.manager = CBCentralManager(delegate: self, queue: managerQueue, options: [CBCentralManagerOptionShowPowerAlertKey: true])
+        manager = CBCentralManager(delegate: self, queue: managerQueue, options: [CBCentralManagerOptionShowPowerAlertKey: true])
     }
 
     deinit {
@@ -67,7 +67,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         }
     }
 
-    func getConfiguration(sensor: Sensor) -> [SensorConnectionConfigurationOption] {
+    func getConfiguration(sensor _: Sensor) -> [SensorConnectionConfigurationOption] {
         return []
     }
 
@@ -199,11 +199,11 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         self.stayConnected = stayConnected
     }
 
-    func checkRetrievedPeripheral(peripheral: CBPeripheral) -> Bool {
+    func checkRetrievedPeripheral(peripheral _: CBPeripheral) -> Bool {
         preconditionFailure("This property must be overridden")
     }
 
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    func centralManagerDidUpdateState(_: CBCentralManager) {
         guard let manager else {
             DirectLog.error("Guard: manager is nil")
             return
@@ -226,7 +226,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         }
     }
 
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+    func centralManager(_: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData _: [String: Any], rssi _: NSNumber) {
         guard let manager else {
             DirectLog.error("Guard: manager is nil")
             return
@@ -240,7 +240,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         connect(peripheral)
     }
 
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+    func centralManager(_: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         sendUpdate(connectionState: .disconnected)
         sendUpdate(error: error)
 
@@ -251,7 +251,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         connect(peripheral)
     }
 
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    func centralManager(_: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         sendUpdate(connectionState: .disconnected)
         sendUpdate(error: error)
 
@@ -262,7 +262,7 @@ class SensorBluetoothConnection: NSObject, SensorConnectionProtocol, CBCentralMa
         connect(peripheral)
     }
 
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+    func centralManager(_: CBCentralManager, didConnect peripheral: CBPeripheral) {
         resetBuffer()
 
         guard let serviceUUID else {

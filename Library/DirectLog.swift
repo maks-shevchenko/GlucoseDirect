@@ -1,5 +1,5 @@
 //
-//  AppLog.swift
+//  DirectLog.swift
 //  GlucoseDirect
 //
 
@@ -44,7 +44,7 @@ enum DirectLog {
 
     private static let fileLogger: FileLogger = .init()
 
-    private static func log(message: String, type: OSLogType, log: OSLog, error: Error? = nil, file: String, line: Int, function: String) {
+    private static func log(message: String, type: OSLogType, log: OSLog, error _: Error? = nil, file: String, line: Int, function: String) {
         // Console logging
         let meta = "[\(file):\(line)][\(function)][isMT: \(Thread.isMainThread)]"
 
@@ -281,7 +281,7 @@ class StreamReader {
 
             self.chunkSize = chunkSize
             self.encoding = encoding
-            self.fileHandle = initFileHandle
+            fileHandle = initFileHandle
             self.delimData = delimData
             self.buffer = buffer
         } catch {

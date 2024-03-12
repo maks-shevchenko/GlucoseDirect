@@ -45,22 +45,22 @@ extension View {
             self
         }
     }
-    
+
     func info(_ message: String) -> some View {
         DirectLog.info(message)
-        
+
         return self
     }
-    
+
     func debug(_ message: String) -> some View {
         DirectLog.debug(message)
-        
+
         return self
     }
-    
+
     func error(_ message: String) -> some View {
         DirectLog.error(message)
-        
+
         return self
     }
 }

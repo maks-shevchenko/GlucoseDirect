@@ -19,7 +19,7 @@ func bloodGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setMinSelectedDate(minSelectedDate: minSelectedDate)
             }.eraseToAnyPublisher()
 
-        case .addBloodGlucose(glucoseValues: let glucoseValues):
+        case let .addBloodGlucose(glucoseValues: glucoseValues):
             guard !glucoseValues.isEmpty else {
                 break
             }
@@ -30,7 +30,7 @@ func bloodGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 .setFailureType(to: DirectError.self)
                 .eraseToAnyPublisher()
 
-        case .deleteBloodGlucose(glucose: let glucose):
+        case let .deleteBloodGlucose(glucose: glucose):
             DataStore.shared.deleteBloodGlucose(glucose)
 
             return Just(DirectAction.loadBloodGlucoseValues)
@@ -58,7 +58,7 @@ func bloodGlucoseStoreMiddleware() -> Middleware<DirectState, DirectAction> {
                 DirectAction.setBloodGlucoseValues(glucoseValues: glucoseValues)
             }.eraseToAnyPublisher()
 
-        case .setAppState(appState: let appState):
+        case let .setAppState(appState: appState):
             guard appState == .active else {
                 break
             }
@@ -135,7 +135,7 @@ private extension DataStore {
         if let dbQueue = dbQueue {
             do {
                 try dbQueue.write { db in
-                    values.forEach { value in
+                    for value in values {
                         do {
                             try value.insert(db)
                         } catch {

@@ -72,7 +72,7 @@ class LibreConnection: SensorConnectionProtocol, IsSensor {
         if let connection = initConnection(sensor: sensor) {
             return connection.getConfiguration(sensor: sensor)
         }
-        
+
         return []
     }
 

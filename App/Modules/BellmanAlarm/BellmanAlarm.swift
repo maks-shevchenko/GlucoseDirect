@@ -1,5 +1,5 @@
 //
-//  BellmanNotification.swift
+//  BellmanAlarm.swift
 //  GlucoseDirect
 //
 
@@ -21,7 +21,7 @@ private func bellmanAlarmMiddelware(service: LazyService<BellmanAlarmService>, s
         case .startup:
             return subject.eraseToAnyPublisher()
 
-        case .setBellmanNotification(enabled: let enabled):
+        case let .setBellmanNotification(enabled: enabled):
             if enabled {
                 service.value.connectDevice()
             } else {
@@ -31,7 +31,7 @@ private func bellmanAlarmMiddelware(service: LazyService<BellmanAlarmService>, s
         case .bellmanTestAlarm:
             service.value.notifyDevice()
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             guard state.bellmanAlarm else {
                 break
             }
@@ -129,7 +129,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    func centralManagerDidUpdateState(_: CBCentralManager) {
         guard let manager else {
             DirectLog.error("Guard: manager is nil")
             return
@@ -153,7 +153,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+    func centralManager(_: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
         DirectLog.info("DidDiscover peripheral: \(peripheral)")
         DirectLog.info("AdvertisementData: \(advertisementData)")
         DirectLog.info("RSSI: \(RSSI)")
@@ -166,7 +166,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         connect(peripheral)
     }
 
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+    func centralManager(_: CBCentralManager, didFailToConnect _: CBPeripheral, error: Error?) {
         if let error = error {
             DirectLog.error("DidFailToConnect error: \(error)")
         }
@@ -180,7 +180,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         connect()
     }
 
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    func centralManager(_: CBCentralManager, didDisconnectPeripheral _: CBPeripheral, error: Error?) {
         if let error = error {
             DirectLog.error("DidDisconnectPeripheral error: \(error)")
         }
@@ -194,7 +194,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         connect()
     }
 
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+    func centralManager(_: CBCentralManager, didConnect peripheral: CBPeripheral) {
         setConnectionState(connectionState: .connected)
         peripheral.discoverServices([commandServiceUUID, deviceServiceUUID])
     }
@@ -252,7 +252,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             DirectLog.error("DidUpdateNotificationStateFor error: \(error)")
         }
@@ -270,7 +270,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             DirectLog.error("DidWriteValueFor error: \(error)")
         }
@@ -284,7 +284,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
         DirectLog.info("DidWriteValueFor data.count: \(data.count)")
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    func peripheral(_: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             DirectLog.error("DidUpdateValueFor error: \(error)")
         }
@@ -392,7 +392,7 @@ private class BellmanAlarmService: NSObject, CBCentralManagerDelegate, CBPeriphe
             }
         }
     }
-    
+
     private func connect() {
         setConnectionState(connectionState: .connecting)
 

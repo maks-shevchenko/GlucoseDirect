@@ -1,5 +1,5 @@
 //
-//  LocalizedBundleString.swift
+//  LocalizedString.swift
 //  GlucoseDirect
 //
 

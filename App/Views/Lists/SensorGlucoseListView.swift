@@ -1,5 +1,5 @@
 //
-//  SensorGlucoseList.swift
+//  SensorGlucoseListView.swift
 //  GlucoseDirectApp
 //
 
@@ -21,8 +21,8 @@ struct SensorGlucoseListView: View {
                 }.buttonStyle(.plain),
 
                 collapsed: true,
-                collapsible: !sensorGlucoseValues.isEmpty)
-            {
+                collapsible: !sensorGlucoseValues.isEmpty
+            ) {
                 if sensorGlucoseValues.isEmpty {
                     Text(getTeaser(sensorGlucoseValues.count))
                 } else {
@@ -54,7 +54,7 @@ struct SensorGlucoseListView: View {
                             (index: i, glucose: sensorGlucoseValues[i])
                         }
 
-                        deletables.forEach { delete in
+                        for delete in deletables {
                             sensorGlucoseValues.remove(at: delete.index)
                             store.dispatch(.deleteSensorGlucose(glucose: delete.glucose))
                         }

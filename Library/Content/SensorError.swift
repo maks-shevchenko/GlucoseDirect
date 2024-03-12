@@ -13,19 +13,19 @@ struct SensorError: CustomStringConvertible, Codable, Identifiable {
     init(timestamp: Date, error: SensorReadingError) {
         let roundedTimestamp = timestamp.toRounded(on: 1, .minute)
 
-        self.id = UUID()
+        id = UUID()
         self.timestamp = roundedTimestamp
         self.error = error
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
-    init(id: UUID, timestamp: Date, error: SensorReadingError) {
+    init(id _: UUID, timestamp: Date, error: SensorReadingError) {
         let roundedTimestamp = timestamp.toRounded(on: 1, .minute)
 
-        self.id = UUID()
+        id = UUID()
         self.timestamp = roundedTimestamp
         self.error = error
-        self.timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
+        timegroup = roundedTimestamp.toRounded(on: DirectConfig.timegroupRounding, .minute)
     }
 
     // MARK: Internal

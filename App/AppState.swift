@@ -1,5 +1,5 @@
 //
-//  UserDefaultsAppState.swift
+//  AppState.swift
 //  GlucoseDirect
 //
 
@@ -42,42 +42,42 @@ struct AppState: DirectState {
             UserDefaults.shared.transmitter = transmitter
         }
 
-        self.alarmHigh = UserDefaults.standard.alarmHigh
-        self.alarmLow = UserDefaults.standard.alarmLow
-        self.alarmVolume = UserDefaults.standard.alarmVolume
-        self.appleCalendarExport = UserDefaults.standard.appleCalendarExport
-        self.appleHealthExport = UserDefaults.standard.appleHealthExport
-        self.bellmanAlarm = UserDefaults.standard.bellmanAlarm
-        self.chartShowLines = UserDefaults.standard.chartShowLines
-        self.chartZoomLevel = UserDefaults.standard.chartZoomLevel
-        self.connectionAlarmSound = UserDefaults.standard.connectionAlarmSound
-        self.connectionPeripheralUUID = UserDefaults.standard.connectionPeripheralUUID
-        self.customCalibration = UserDefaults.standard.customCalibration
-        self.expiringAlarmSound = UserDefaults.standard.expiringAlarmSound
-        self.normalGlucoseNotification = UserDefaults.standard.normalGlucoseNotification
-        self.alarmGlucoseNotification = UserDefaults.standard.alarmGlucoseNotification
-        self.glucoseLiveActivity = UserDefaults.standard.glucoseLiveActivity
-        self.ignoreMute = UserDefaults.standard.ignoreMute
-        self.glucoseUnit = UserDefaults.shared.glucoseUnit ?? .mgdL
-        self.highGlucoseAlarmSound = UserDefaults.standard.highGlucoseAlarmSound
-        self.isConnectionPaired = UserDefaults.standard.isConnectionPaired
-        self.latestBloodGlucose = UserDefaults.shared.latestBloodGlucose
-        self.latestSensorGlucose = UserDefaults.shared.latestSensorGlucose
-        self.latestSensorError = UserDefaults.shared.latestSensorError
-        self.latestInsulinDelivery = UserDefaults.shared.latestInsulinDelivery
-        self.lowGlucoseAlarmSound = UserDefaults.standard.lowGlucoseAlarmSound
-        self.nightscoutApiSecret = UserDefaults.standard.nightscoutApiSecret
-        self.nightscoutUpload = UserDefaults.standard.nightscoutUpload
-        self.nightscoutURL = UserDefaults.standard.nightscoutURL
-        self.readGlucose = UserDefaults.standard.readGlucose
-        self.selectedCalendarTarget = UserDefaults.standard.selectedCalendarTarget
-        self.selectedConnectionID = UserDefaults.standard.selectedConnectionID ?? defaultConnectionID
-        self.sensor = UserDefaults.shared.sensor
-        self.sensorInterval = UserDefaults.standard.sensorInterval
-        self.showAnnotations = UserDefaults.standard.showAnnotations
-        self.transmitter = UserDefaults.shared.transmitter
-        self.showSmoothedGlucose = UserDefaults.standard.showSmoothedGlucose
-        self.showInsulinInput = UserDefaults.standard.showInsulinInput
+        alarmHigh = UserDefaults.standard.alarmHigh
+        alarmLow = UserDefaults.standard.alarmLow
+        alarmVolume = UserDefaults.standard.alarmVolume
+        appleCalendarExport = UserDefaults.standard.appleCalendarExport
+        appleHealthExport = UserDefaults.standard.appleHealthExport
+        bellmanAlarm = UserDefaults.standard.bellmanAlarm
+        chartShowLines = UserDefaults.standard.chartShowLines
+        chartZoomLevel = UserDefaults.standard.chartZoomLevel
+        connectionAlarmSound = UserDefaults.standard.connectionAlarmSound
+        connectionPeripheralUUID = UserDefaults.standard.connectionPeripheralUUID
+        customCalibration = UserDefaults.standard.customCalibration
+        expiringAlarmSound = UserDefaults.standard.expiringAlarmSound
+        normalGlucoseNotification = UserDefaults.standard.normalGlucoseNotification
+        alarmGlucoseNotification = UserDefaults.standard.alarmGlucoseNotification
+        glucoseLiveActivity = UserDefaults.standard.glucoseLiveActivity
+        ignoreMute = UserDefaults.standard.ignoreMute
+        glucoseUnit = UserDefaults.shared.glucoseUnit ?? .mgdL
+        highGlucoseAlarmSound = UserDefaults.standard.highGlucoseAlarmSound
+        isConnectionPaired = UserDefaults.standard.isConnectionPaired
+        latestBloodGlucose = UserDefaults.shared.latestBloodGlucose
+        latestSensorGlucose = UserDefaults.shared.latestSensorGlucose
+        latestSensorError = UserDefaults.shared.latestSensorError
+        latestInsulinDelivery = UserDefaults.shared.latestInsulinDelivery
+        lowGlucoseAlarmSound = UserDefaults.standard.lowGlucoseAlarmSound
+        nightscoutApiSecret = UserDefaults.standard.nightscoutApiSecret
+        nightscoutUpload = UserDefaults.standard.nightscoutUpload
+        nightscoutURL = UserDefaults.standard.nightscoutURL
+        readGlucose = UserDefaults.standard.readGlucose
+        selectedCalendarTarget = UserDefaults.standard.selectedCalendarTarget
+        selectedConnectionID = UserDefaults.standard.selectedConnectionID ?? defaultConnectionID
+        sensor = UserDefaults.shared.sensor
+        sensorInterval = UserDefaults.standard.sensorInterval
+        showAnnotations = UserDefaults.standard.showAnnotations
+        transmitter = UserDefaults.shared.transmitter
+        showSmoothedGlucose = UserDefaults.standard.showSmoothedGlucose
+        showInsulinInput = UserDefaults.standard.showInsulinInput
     }
 
     // MARK: Internal
@@ -106,7 +106,7 @@ struct AppState: DirectState {
     var targetValue = 100
     var selectedView = DirectConfig.overviewViewTag
     var statisticsDays = 3
-   
+
     var appSerial: String {
         UserDefaults.shared.appSerial
     }

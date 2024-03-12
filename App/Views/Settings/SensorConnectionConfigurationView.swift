@@ -1,5 +1,5 @@
 //
-//  SensorConfiguration.swift
+//  SensorConnectionConfigurationView.swift
 //  GlucoseDirectApp
 //
 

@@ -1,5 +1,5 @@
 //
-//  FreeAPS.swift
+//  AppGroupSharing.swift
 //  GlucoseDirect
 //
 
@@ -22,13 +22,13 @@ private func appGroupSharingMiddleware(service: LazyService<AppGroupSharingServi
         case .selectConnection(id: _, connection: _):
             service.value.clearAll()
 
-        case .setConnectionState(connectionState: let connectionState):
+        case let .setConnectionState(connectionState: connectionState):
             service.value.setConnectionState(value: connectionState.localizedDescription)
 
         case .setSensor(sensor: let sensor, keepDevice: _):
             service.value.setSensor(sensor: sensor.type.localizedDescription, sensorState: sensor.state.localizedDescription, sensorConnectionState: state.connectionState.localizedDescription)
 
-        case .setTransmitter(transmitter: let transmitter):
+        case let .setTransmitter(transmitter: transmitter):
             service.value.setTransmitter(transmitter: transmitter.name, transmitterBattery: "\(transmitter.battery)%", transmitterHardware: transmitter.hardware?.description, transmitterFirmware: transmitter.firmware?.description)
 
         case .disconnectConnection:
@@ -37,7 +37,7 @@ private func appGroupSharingMiddleware(service: LazyService<AppGroupSharingServi
         case .pairConnection:
             service.value.clearGlucoseValues()
 
-        case .addBloodGlucose(glucoseValues: let glucoseValues):
+        case let .addBloodGlucose(glucoseValues: glucoseValues):
             if let sensor = state.sensor {
                 service.value.setSensor(sensor: sensor.type.localizedDescription, sensorState: sensor.state.localizedDescription, sensorConnectionState: state.connectionState.localizedDescription)
             } else {
@@ -56,7 +56,7 @@ private func appGroupSharingMiddleware(service: LazyService<AppGroupSharingServi
 
             service.value.addBloodGlucose(glucoseValues: [glucose])
 
-        case .addSensorGlucose(glucoseValues: let glucoseValues):
+        case let .addSensorGlucose(glucoseValues: glucoseValues):
             if let sensor = state.sensor {
                 service.value.setSensor(sensor: sensor.type.localizedDescription, sensorState: sensor.state.localizedDescription, sensorConnectionState: state.connectionState.localizedDescription)
             } else {
@@ -72,7 +72,7 @@ private func appGroupSharingMiddleware(service: LazyService<AppGroupSharingServi
             guard let glucose = glucoseValues.last else {
                 break
             }
-            
+
             guard glucose.type != .high else {
                 break
             }
@@ -173,7 +173,7 @@ private extension BloodGlucose {
             "Trend": SensorTrend.unknown.toNightscoutTrend(),
             "DT": date,
             "direction": SensorTrend.unknown.toNightscoutDirection(),
-            "from": DirectConfig.projectName
+            "from": DirectConfig.projectName,
         ]
 
         return freeAPSGlucose
@@ -189,7 +189,7 @@ private extension SensorGlucose {
             "Trend": trend.toNightscoutTrend(),
             "DT": date,
             "direction": trend.toNightscoutDirection(),
-            "from": DirectConfig.projectName
+            "from": DirectConfig.projectName,
         ]
 
         return freeAPSGlucose

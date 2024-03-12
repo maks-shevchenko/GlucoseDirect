@@ -27,7 +27,7 @@ class Store<State, Action>: ObservableObject {
     // MARK: Lifecycle
 
     init(initialState: State, reducer: @escaping Reducer<State, Action> = { _, _ in }, middlewares: [Middleware<State, Action>] = []) {
-        self.state = initialState
+        state = initialState
         self.reducer = reducer
         self.middlewares = middlewares
     }
@@ -57,10 +57,10 @@ class Store<State, Action>: ObservableObject {
                 .sink(
                     receiveCompletion: { [weak self] completion in
                         switch completion {
-                        case .failure(.withMessage(message: let message)):
+                        case let .failure(.withMessage(message: message)):
                             DirectLog.error("Error message: \(message)")
 
-                        case .failure(.withError(error: let error)):
+                        case let .failure(.withError(error: error)):
                             DirectLog.error("Error: \(error)")
 
                         default:

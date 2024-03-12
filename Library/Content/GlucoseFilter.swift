@@ -18,8 +18,8 @@ class GlucoseFilter {
         if kalmanFilter == nil {
             let kalmanFilter = KalmanFilter(processNoise: 1, measurementNoise: 25)
 
-            initGlucoseValues.forEach {
-                let _ = kalmanFilter.filter($0)
+            for initGlucoseValue in initGlucoseValues {
+                let _ = kalmanFilter.filter(initGlucoseValue)
             }
 
             self.kalmanFilter = kalmanFilter
@@ -53,7 +53,7 @@ private class KalmanFilter {
 
             x = (1 / controlVector) * measurement
             cov = (1 / controlVector) * measurementNoise * (1 / controlVector)
-            
+
             return measurement
         } else {
             // Compute prediction

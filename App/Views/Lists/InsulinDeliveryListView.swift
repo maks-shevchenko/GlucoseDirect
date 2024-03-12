@@ -1,5 +1,5 @@
 //
-//  InsulinList.swift
+//  InsulinDeliveryListView.swift
 //  GlucoseDirectApp
 //
 
@@ -20,8 +20,8 @@ struct InsulinDeliveryListView: View {
                     SelectedDatePager().padding(.trailing)
                 }.buttonStyle(.plain),
                 collapsed: true,
-                collapsible: !insulinDeliveryValues.isEmpty)
-            {
+                collapsible: !insulinDeliveryValues.isEmpty
+            ) {
                 if insulinDeliveryValues.isEmpty {
                     Text(getTeaser(insulinDeliveryValues.count))
                 } else {
@@ -55,7 +55,7 @@ struct InsulinDeliveryListView: View {
                             (index: i, insulinDelivery: insulinDeliveryValues[i])
                         }
 
-                        deletables.forEach { delete in
+                        for delete in deletables {
                             insulinDeliveryValues.remove(at: delete.index)
                             store.dispatch(.deleteInsulinDelivery(insulinDelivery: delete.insulinDelivery))
                         }

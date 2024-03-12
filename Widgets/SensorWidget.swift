@@ -40,13 +40,13 @@ struct SensorEntry: TimelineEntry {
     // MARK: Lifecycle
 
     init() {
-        self.date = Date()
-        self.sensor = nil
+        date = Date()
+        sensor = nil
     }
 
     init(date: Date) {
         self.date = date
-        self.sensor = nil
+        sensor = nil
     }
 
     init(date: Date, sensor: Sensor) {
@@ -63,19 +63,19 @@ struct SensorEntry: TimelineEntry {
 // MARK: - SensorUpdateProvider
 
 struct SensorUpdateProvider: TimelineProvider {
-    func placeholder(in context: Context) -> SensorEntry {
+    func placeholder(in _: Context) -> SensorEntry {
         return SensorEntry(date: Date(), sensor: placeholderSensor)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SensorEntry) -> ()) {
+    func getSnapshot(in _: Context, completion: @escaping (SensorEntry) -> Void) {
         let entry = SensorEntry()
 
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let entries = [
-            SensorEntry()
+            SensorEntry(),
         ]
 
         let reloadDate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!

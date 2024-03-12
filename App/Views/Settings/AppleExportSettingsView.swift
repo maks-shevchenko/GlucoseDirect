@@ -1,5 +1,5 @@
 //
-//  CalendarExportSettings.swift
+//  AppleExportSettingsView.swift
 //  GlucoseDirect
 //
 

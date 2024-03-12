@@ -1,5 +1,5 @@
 //
-//  SensorConnectorSettings.swift
+//  SensorConnectorSettingsView.swift
 //  GlucoseDirect
 //
 

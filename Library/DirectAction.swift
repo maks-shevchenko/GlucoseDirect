@@ -99,4 +99,3 @@ enum DirectAction {
     case debugAlarm
     case debugNotification
 }
-

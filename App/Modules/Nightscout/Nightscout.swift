@@ -19,29 +19,29 @@ private func nightscoutMiddleware(service: LazyService<NightscoutService>) -> Mi
 
         if state.nightscoutUpload, !nightscoutURL.isEmpty, !nightscoutApiSecret.isEmpty {
             switch action {
-            case .deleteBloodGlucose(glucose: let glucose):
+            case let .deleteBloodGlucose(glucose: glucose):
                 service.value.deleteBloodGlucose(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), id: glucose.id.uuidString)
-                
-            case .deleteSensorGlucose(glucose: let glucose):
+
+            case let .deleteSensorGlucose(glucose: glucose):
                 service.value.deleteSensorGlucose(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), id: glucose.id.uuidString)
-                
-            case .deleteInsulinDelivery(insulinDelivery: let insulinDeliveryValue):
+
+            case let .deleteInsulinDelivery(insulinDelivery: insulinDeliveryValue):
                 service.value.deleteInsulinDelivery(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), id: insulinDeliveryValue.id.uuidString)
 
             case .clearBloodGlucoseValues:
                 service.value.clearBloodGlucoseValues(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1())
-                
+
             case .clearSensorGlucoseValues:
                 service.value.clearSensorGlucoseValues(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1())
 
-            case .addBloodGlucose(glucoseValues: let glucoseValues):
+            case let .addBloodGlucose(glucoseValues: glucoseValues):
                 service.value.addBloodGlucose(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), glucoseValues: glucoseValues)
 
-            case .addSensorGlucose(glucoseValues: let glucoseValues):
+            case let .addSensorGlucose(glucoseValues: glucoseValues):
                 guard let glucose = glucoseValues.last, glucose.type != .high else {
                     break
                 }
-                
+
                 service.value.addSensorGlucose(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), glucoseValues: glucoseValues)
 
             case .setSensorState(sensorAge: _, sensorState: _):
@@ -65,7 +65,7 @@ private func nightscoutMiddleware(service: LazyService<NightscoutService>) -> Mi
                         service.value.setSensorStart(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), sensor: sensor)
                     }
                 }
-            case .addInsulinDelivery(insulinDeliveryValues: let insulinDeliveryValues):
+            case let .addInsulinDelivery(insulinDeliveryValues: insulinDeliveryValues):
                 service.value.addInsulinDelivery(nightscoutURL: nightscoutURL, apiSecret: nightscoutApiSecret.toSha1(), insulinDeliveryValues: insulinDeliveryValues)
 
             default:
@@ -127,7 +127,7 @@ private class NightscoutService {
 
         task.resume()
     }
-    
+
     func clearBloodGlucoseValues(nightscoutURL: String, apiSecret: String) {
         let session = URLSession.shared
 
@@ -185,7 +185,7 @@ private class NightscoutService {
 
         task.resume()
     }
-    
+
     func deleteBloodGlucose(nightscoutURL: String, apiSecret: String, id: String) {
         let session = URLSession.shared
 
@@ -243,7 +243,7 @@ private class NightscoutService {
 
         task.resume()
     }
-    
+
     func deleteInsulinDelivery(nightscoutURL: String, apiSecret: String, id: String) {
         let session = URLSession.shared
 
@@ -389,8 +389,7 @@ private class NightscoutService {
 
         task.resume()
     }
-    
-    
+
     func addInsulinDelivery(nightscoutURL: String, apiSecret: String, insulinDeliveryValues: [InsulinDelivery]) {
         let nightscoutValues = insulinDeliveryValues.map { insulinDelivery in
             insulinDelivery.toNightscoutInsulinDelivery()
@@ -463,7 +462,7 @@ private extension Sensor {
             "_id": serial,
             "eventType": "Sensor Start",
             "created_at": startTimestamp.toISOStringFromDate(),
-            "enteredBy": DirectConfig.projectName
+            "enteredBy": DirectConfig.projectName,
         ]
 
         return nightscout
@@ -479,7 +478,7 @@ private extension BloodGlucose {
             "dateString": timestamp.toISOStringFromDate(),
             "type": "mbg",
             "mbg": glucoseValue,
-            "glucoseDirect": id.uuidString
+            "glucoseDirect": id.uuidString,
         ]
 
         return nightscout
@@ -498,7 +497,7 @@ private extension SensorGlucose {
             "rawbg": rawGlucoseValue,
             "direction": trend.toNightscoutDirection(),
             "trend": trend.toNightscoutTrend(),
-            "glucoseDirect": id.uuidString
+            "glucoseDirect": id.uuidString,
         ]
 
         return nightscout
@@ -513,7 +512,7 @@ private extension InsulinDelivery {
             "created_at": starts.toISOStringFromDate(),
             "eventType": type.toNightscoutEventType(),
             "insulin": units,
-            "glucoseDirect": id.uuidString
+            "glucoseDirect": id.uuidString,
         ]
 
         return nightscout
@@ -524,13 +523,13 @@ private extension InsulinType {
     func toNightscoutEventType() -> String {
         switch self {
         case .mealBolus:
-            return  "Meal Bolus"
+            return "Meal Bolus"
         case .correctionBolus:
-            return  "Correction Bolus"
+            return "Correction Bolus"
         case .basal:
-            return  "Temp Basal"
+            return "Temp Basal"
         case .snackBolus:
-            return  "Snack Bolus"
+            return "Snack Bolus"
         }
     }
 }

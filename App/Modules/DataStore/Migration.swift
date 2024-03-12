@@ -153,7 +153,7 @@ enum Gen2GlucoseType: Equatable, Codable {
             return LocalizedString("CGM")
         case .bgm:
             return LocalizedString("BGM")
-        case .faulty(quality: let quality):
+        case let .faulty(quality: quality):
             return LocalizedString("Failure: \(quality.description)")
         }
     }
